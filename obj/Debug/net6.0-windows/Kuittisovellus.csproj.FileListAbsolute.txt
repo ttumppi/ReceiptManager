@@ -1,0 +1,78 @@
+F:\visual studio setit\C#\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.exe
+F:\visual studio setit\C#\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.deps.json
+F:\visual studio setit\C#\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.runtimeconfig.json
+F:\visual studio setit\C#\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.dll
+F:\visual studio setit\C#\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.pdb
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.Form1.resources
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.csproj.GenerateResource.cache
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.GeneratedMSBuildEditorConfig.editorconfig
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.AssemblyInfoInputs.cache
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.AssemblyInfo.cs
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.csproj.CoreCompileInputs.cache
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.dll
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\refint\Kuittisovellus.dll
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.pdb
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.genruntimeconfig.cache
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\ref\Kuittisovellus.dll
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.AddReceiptView.resources
+F:\visual studio setit\C#\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.MainListView.resources
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.exe
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.deps.json
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.runtimeconfig.json
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.dll
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.pdb
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.AddReceiptView.resources
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.Form1.resources
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.MainListView.resources
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.csproj.GenerateResource.cache
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.AssemblyInfoInputs.cache
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.AssemblyInfo.cs
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.csproj.CoreCompileInputs.cache
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.sourcelink.json
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.dll
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\refint\Kuittisovellus.dll
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.pdb
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.genruntimeconfig.cache
+C:\Users\Tuomas the 4th\source\repos\Kuittisovellus\obj\Debug\net6.0-windows\ref\Kuittisovellus.dll
+E:\VS Repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.exe
+E:\VS Repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.deps.json
+E:\VS Repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.runtimeconfig.json
+E:\VS Repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.dll
+E:\VS Repos\Kuittisovellus\bin\Debug\net6.0-windows\Kuittisovellus.pdb
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.AddReceiptView.resources
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.Form1.resources
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.MainListView.resources
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.csproj.GenerateResource.cache
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.GeneratedMSBuildEditorConfig.editorconfig
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.AssemblyInfoInputs.cache
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.AssemblyInfo.cs
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.csproj.CoreCompileInputs.cache
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.sourcelink.json
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.dll
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\refint\Kuittisovellus.dll
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.pdb
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\Kuittisovellus.genruntimeconfig.cache
+E:\VS Repos\Kuittisovellus\obj\Debug\net6.0-windows\ref\Kuittisovellus.dll
+C:\Users\tuomas\source\repos\ReceiptManager\bin\Debug\net6.0-windows\Kuittisovellus.exe
+C:\Users\tuomas\source\repos\ReceiptManager\bin\Debug\net6.0-windows\Kuittisovellus.deps.json
+C:\Users\tuomas\source\repos\ReceiptManager\bin\Debug\net6.0-windows\Kuittisovellus.runtimeconfig.json
+C:\Users\tuomas\source\repos\ReceiptManager\bin\Debug\net6.0-windows\Kuittisovellus.dll
+C:\Users\tuomas\source\repos\ReceiptManager\bin\Debug\net6.0-windows\Kuittisovellus.pdb
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.AddReceiptView.resources
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.LogView.resources
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.MainListView.resources
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.csproj.GenerateResource.cache
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.AssemblyInfoInputs.cache
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.AssemblyInfo.cs
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.csproj.CoreCompileInputs.cache
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.sourcelink.json
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.dll
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\refint\Kuittisovellus.dll
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.pdb
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.genruntimeconfig.cache
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\ref\Kuittisovellus.dll
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.TabUC.resources
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.MainForm.resources
+C:\Users\tuomas\source\repos\ReceiptManager\obj\Debug\net6.0-windows\Kuittisovellus.ImageViewer.resources

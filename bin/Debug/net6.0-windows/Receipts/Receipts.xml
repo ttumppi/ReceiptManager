@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Info>
+    <ID>a</ID>
+    <Name>mopo</Name>
+    <ExpirationDate>12/02/2022</ExpirationDate>
+    <PurchaseDate>12/02/2022</PurchaseDate>
+    <Cost>530</Cost>
+    <ImgPath />
+  </Info>
+</ArrayOfInfo>
