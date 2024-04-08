@@ -14,9 +14,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tuomas\\source\\repos\\ReceiptManager\\Kuittisovellus.csproj",
-      "projectName": "Kuittisovellus",
-      "projectPath": "C:\\Users\\tuomas\\source\\repos\\ReceiptManager\\Kuittisovellus.csproj",
+      "projectUniqueName": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\ReceiptManager.csproj",
+      "projectName": "ReceiptManager",
+      "projectPath": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\ReceiptManager.csproj",
       "packagesPath": "C:\\Users\\tuomas\\.nuget\\packages\\",
       "outputPath": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\obj\\",
       "projectStyle": "PackageReference",

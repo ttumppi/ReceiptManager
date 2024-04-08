@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "LgM1fyhCKvfX8TIKAl+0CvP85KZ0lxknBCvVGKEILfUmmRBEXM1t2V7/kOr+lTmyQ6lzb2G9SxjCKunht4R0mA==",
+  "dgSpecHash": "pyimivVXpgox61P/0rJaYhm96Wc0t+YhGCWFkOo3meQDbmMJxUxETSNXncz+vCXx4eb20jOqdQfssuxEUSVlJg==",
   "success": true,
-  "projectFilePath": "C:\\Users\\tuomas\\source\\repos\\ReceiptManager\\Kuittisovellus.csproj",
+  "projectFilePath": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\ReceiptManager.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

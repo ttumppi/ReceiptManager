@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\tuomas\\source\\repos\\ReceiptManager\\Kuittisovellus.csproj": {}
+    "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\Kuittisovellus.csproj": {}
   },
   "projects": {
-    "C:\\Users\\tuomas\\source\\repos\\ReceiptManager\\Kuittisovellus.csproj": {
+    "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\Kuittisovellus.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\tuomas\\source\\repos\\ReceiptManager\\Kuittisovellus.csproj",
+        "projectUniqueName": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\Kuittisovellus.csproj",
         "projectName": "Kuittisovellus",
-        "projectPath": "C:\\Users\\tuomas\\source\\repos\\ReceiptManager\\Kuittisovellus.csproj",
+        "projectPath": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\Kuittisovellus.csproj",
         "packagesPath": "C:\\Users\\tuomas\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\tuomas\\source\\repos\\ReceiptManager\\obj\\",
+        "outputPath": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"

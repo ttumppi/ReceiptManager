@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Kuittisovellus")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+c662e20275da2c8b6d69edc985a6ad0c2fc8e500")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+45685dd7a53df1dc752208f568bda0bfb77fb862")]
 [assembly: System.Reflection.AssemblyProductAttribute("Kuittisovellus")]
 [assembly: System.Reflection.AssemblyTitleAttribute("Kuittisovellus")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
