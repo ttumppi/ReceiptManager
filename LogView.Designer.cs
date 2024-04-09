@@ -60,6 +60,7 @@
             TestButton.TabIndex = 1;
             TestButton.Text = "Test";
             TestButton.UseVisualStyleBackColor = true;
+            TestButton.Visible = false;
             TestButton.Click += TestButton_Click;
             // 
             // LogView

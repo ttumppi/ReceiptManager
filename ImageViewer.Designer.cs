@@ -34,9 +34,10 @@
             // 
             // PictureBox
             // 
-            PictureBox.Location = new Point(245, 57);
+            PictureBox.BorderStyle = BorderStyle.FixedSingle;
+            PictureBox.Location = new Point(70, 50);
             PictureBox.Name = "PictureBox";
-            PictureBox.Size = new Size(435, 274);
+            PictureBox.Size = new Size(1184, 569);
             PictureBox.TabIndex = 0;
             PictureBox.TabStop = false;
             // 
@@ -46,7 +47,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             Controls.Add(PictureBox);
             Name = "ImageViewer";
-            Size = new Size(993, 437);
+            Size = new Size(1374, 622);
             ((System.ComponentModel.ISupportInitialize)PictureBox).EndInit();
             ResumeLayout(false);
         }
