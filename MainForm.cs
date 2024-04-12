@@ -11,6 +11,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using TestConsole;
+using System.Net.NetworkInformation;
 
 
 
@@ -42,11 +43,12 @@ namespace Kuittisovellus
             InitializeComponent();
 
             Settings.Instance.UCSize = new Size(ClientSize.Width, ClientSize.Height - ReceiptsTabButton.Size.Height);
-            
+
         }
 
         private void TabInitialization()
         {
+            
             Settings.Instance.TabHeight = ReceiptsTabButton.Size.Height;
             CreateTab(_mainView = new MainListView(Settings.Instance.TabHeight));
             CreateTab(_addReceiptsView = new AddReceiptView(Settings.Instance.TabHeight));
@@ -74,7 +76,7 @@ namespace Kuittisovellus
             Read();
             LinkSaveFunctions();
             CreateAndRunServer();
-            CreateClientAndStartIPBroadcast();
+            IPLabel.Text = GetLocalIP();
         }
 
 
@@ -139,12 +141,12 @@ namespace Kuittisovellus
 
         private void CreateClientAndStartIPBroadcast()
         {
-            
+
             _clientSocket = new ClientSocket(IPAddress.Parse("192.168.1.255"), 23499, SocketType.Dgram, ProtocolType.Udp, ";;;");
             _clientSocket.StartPollingMessage("_IP");
         }
 
-       
+
         public void AddMessageToLog(byte[] array)
         {
             _logView.AddMessage(Encoding.UTF8.GetString(array));
@@ -158,6 +160,30 @@ namespace Kuittisovellus
         private void OnConnectionFound(string ip)
         {
             _clientSocket.ShutDown();
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            CreateClientAndStartIPBroadcast();
+        }
+
+        private string GetLocalIP()
+        {
+            try
+            {
+                Socket socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
+                socket.Connect("192.168.1.1", 80);
+                IPEndPoint endpoint = socket.LocalEndPoint as IPEndPoint;
+                return endpoint.Address.ToString();
+            }
+            catch(Exception e)
+            {
+                _logView.AddMessage(e.Message);
+            }
+
+            
+            return "No network found";
             
         }
     }

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ReceiptManager")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+fd79c1a6fc9ce3573333e3f8c6d148ecf9aa7aac")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+823c35d913769b052a0d2eb638c2700df349a8bf")]
 [assembly: System.Reflection.AssemblyProductAttribute("ReceiptManager")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ReceiptManager")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
