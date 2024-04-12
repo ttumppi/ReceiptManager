@@ -18,15 +18,19 @@ namespace Kuittisovellus
         SocketType _socketType;
         ProtocolType _protocolType;
         bool _shutdown;
-        byte[] _data;
-        List<Action<byte[]>>? _listeners;
+        List<Action<byte[]>>? _byteListeners;
         List<Action<Image, byte?>>? _listenersForImage;
+        List<Action<string>>? _stringListeners;
         ServerNotificationMode _mode;
         string _messageEnd;
         Thread _thread;
         byte[] _orientationTag;
         byte? _orientation;
 
+        private readonly static string IMGID = "IMG_";
+        private readonly static string IPID = "IP_";
+
+        Dictionary<byte[], string> _messageTypes;
 
         public ServerSocket(int port, SocketType SocketType, ProtocolType protocolType, ServerNotificationMode mode, string messageEnd)
         {
@@ -37,13 +41,18 @@ namespace Kuittisovellus
             _socket.Blocking = true;
             _socket.Bind(_ipEndPoint);
             _shutdown = false;
-            _listeners = new List<Action<byte[]>>();
+            _byteListeners = new List<Action<byte[]>>();
             _listenersForImage = new List<Action<Image, byte?>>();
             _mode = mode;
             _messageEnd = messageEnd;
             _thread = new Thread(new ThreadStart(StartThread));
             _orientationTag = Encoding.UTF8.GetBytes("WO_");
             _orientation = null;
+            _stringListeners = new List<Action<string>>();
+
+            _messageTypes = new Dictionary<byte[], string> { { Encoding.UTF8.GetBytes(IMGID), IMGID},
+                {Encoding.UTF8.GetBytes(IPID), IPID },
+            };
         }
 
         private void StartThread()
@@ -51,6 +60,8 @@ namespace Kuittisovellus
             List<byte[]> bytesReceived = new List<byte[]>();
 
             Socket? connection = _socket.Accept();
+
+            string? messageType = null;
 
             while (!_shutdown)
             {
@@ -62,51 +73,73 @@ namespace Kuittisovellus
                 if (IfBytesAvailable(connection))
                 {
                     
-                    _data = GetAvailableData(connection); 
+                    byte[] data = GetAvailableData(connection); 
 
-                    if (ContainsImageOrientationData(_data))
+                    if (messageType is null)
                     {
-                        _orientation = ExtractImageOrientationByte(_data);
-                        _data = RemoveImageOrientationData(_data);
+                        messageType = CheckMessageType(data);
                     }
 
-                    if (IsImmediateNotification())
-                    {
-                        if (_listeners is not null)
-                        {
-                            InformListeners(_data);
-                        }
-                    }
+                    
+
+                    
 
 
-                    bytesReceived.Add(_data);
+                    bytesReceived.Add(data);
 
-                    if (CheckEndOfMessage(_data))
+                    if (CheckEndOfMessage(data))
                     {
 
                         connection.Send(Encoding.UTF8.GetBytes(_messageEnd));
 
+                        byte[] finalBytes = JoinByteArrays(bytesReceived);
 
-                        if (_mode == ServerNotificationMode.OnCompleteMessage)
+                        finalBytes = RemoveEndOfMessageFromBytes(finalBytes);
+
+                        if (messageType == IMGID)
                         {
-                            byte[] finalBytes = JoinByteArrays(bytesReceived);
+                            finalBytes = RemoveMessageTypeFromBytes(IMGID, finalBytes);
+                            if (ContainsImageOrientationData(finalBytes))
+                            {
+                                _orientation = ExtractImageOrientationByte(finalBytes);
+                                finalBytes =  RemoveImageOrientationData(finalBytes);
 
-                            finalBytes = RemoveEndOfMessageFromBytes(finalBytes);
+                            }
 
-                            
-                            InformListeners(finalBytes);
-                            
                             InformImageListeners(finalBytes, _orientation);
-                            
-                            bytesReceived.Clear();
-
                         }
+                        if (messageType == IPID)
+                        {
+                            finalBytes = RemoveMessageTypeFromBytes(IPID, finalBytes);
+                            InformListeners(Encoding.UTF8.GetString(finalBytes));
+                        }
+                       
+                        InformListeners(finalBytes);
+                            
+                            
+                            
+                        bytesReceived.Clear();
+                        messageType = null;
+                        
                     }
                 }
                 Thread.Sleep(100);
             }
         }
 
+        private string CheckMessageType(byte[] data)
+        {
+            foreach (byte[] id in _messageTypes.Keys)
+            {
+                byte[] messageId = data.Take(new Range(0, id.Length)).ToArray();
+                if (messageId.SequenceEqual(id))
+                {
+                    return _messageTypes[id];
+                }
+            }
+
+            return string.Empty;
+        }
         public void StartListening()
         {
             _socket.Listen(100);
@@ -124,7 +157,12 @@ namespace Kuittisovellus
 
         public void RegisterListener(Action<byte[]> listener)
         {
-            _listeners.Add(listener);
+            _byteListeners.Add(listener);
+        }
+
+        public void RegisterListener(Action<string> listener)
+        {
+            _stringListeners.Add(listener);
         }
 
         public void RegisterImageListener(Action<Image, byte?> listener)
@@ -190,17 +228,30 @@ namespace Kuittisovellus
 
         private void InformListeners(byte[] data)
         {
-            if (_listeners is null)
+            if (_byteListeners is null)
             {
                 return;
             }
-            foreach (Action<byte[]> action in _listeners)
+            foreach (Action<byte[]> action in _byteListeners)
             {
                 byte[] copy = new byte[data.Length];
                 data.CopyTo(copy, 0);
                 action.Invoke(copy);
 
 
+            }
+        }
+
+        private void InformListeners(string data)
+        {
+            if (_stringListeners is null)
+            {
+                return;
+            }
+            foreach (Action<string> action in _stringListeners)
+            {
+               
+                action.Invoke(data);
             }
         }
 
@@ -275,6 +326,13 @@ namespace Kuittisovellus
             return alteredData;
         }
 
+        private byte[] RemoveMessageTypeFromBytes(string type, byte[] data)
+        {
+            byte[] typeTag = Encoding.UTF8.GetBytes(type);
+            byte[] alteredData = data.Skip(typeTag.Length).ToArray();
+            return alteredData;
+        }
+
         private bool ContainsImageOrientationData(byte[] data)
         {
             
@@ -302,7 +360,7 @@ namespace Kuittisovellus
 
         private byte[] RemoveImageOrientationData(byte[] data)
         {
-            return data.Take(new Range(_orientationTag.Length + 1, data.Length - 1)).ToArray();
+            return data.Skip(_orientationTag.Length + 1).ToArray();
         }
     }
 

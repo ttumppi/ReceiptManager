@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net.Sockets;
 using System.Net;
 using System.Text;
+using TestConsole;
 
 
 
@@ -28,7 +29,7 @@ namespace Kuittisovellus
 
         private ImageViewer _imageViewer;
 
-
+        private ClientSocket _clientSocket;
 
 
 
@@ -41,7 +42,7 @@ namespace Kuittisovellus
             InitializeComponent();
 
             Settings.Instance.UCSize = new Size(ClientSize.Width, ClientSize.Height - ReceiptsTabButton.Size.Height);
-
+            
         }
 
         private void TabInitialization()
@@ -73,6 +74,7 @@ namespace Kuittisovellus
             Read();
             LinkSaveFunctions();
             CreateAndRunServer();
+            CreateClientAndStartIPBroadcast();
         }
 
 
@@ -127,13 +129,22 @@ namespace Kuittisovellus
         private void CreateAndRunServer()
         {
             _serverSocket = new ServerSocket(
-                77, SocketType.Stream, ProtocolType.Tcp, ServerSocket.ServerNotificationMode.OnCompleteMessage, ";;;");
+                23399, SocketType.Stream, ProtocolType.Tcp, ServerSocket.ServerNotificationMode.OnCompleteMessage, ";;;");
 
             _serverSocket.RegisterImageListener(_imageViewer.AddImage);
+            _serverSocket.RegisterListener(OnConnectionFound);
 
             _serverSocket.StartListening();
         }
 
+        private void CreateClientAndStartIPBroadcast()
+        {
+            
+            _clientSocket = new ClientSocket(IPAddress.Parse("192.168.1.255"), 23499, SocketType.Dgram, ProtocolType.Udp, ";;;");
+            _clientSocket.StartPollingMessage("_IP");
+        }
+
+       
         public void AddMessageToLog(byte[] array)
         {
             _logView.AddMessage(Encoding.UTF8.GetString(array));
@@ -142,6 +153,12 @@ namespace Kuittisovellus
         private void ViewImageButton_Click(object sender, EventArgs e)
         {
             _imageViewer.BringToFront();
+        }
+
+        private void OnConnectionFound(string ip)
+        {
+            _clientSocket.ShutDown();
+            
         }
     }
 
