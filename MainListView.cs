@@ -24,6 +24,8 @@ namespace Kuittisovellus
 
         private ListViewItem? _selectedItem;
 
+        private ImageViewer _imageViewer;
+
         
         public Dictionary<string, Info> Receipts
         {
@@ -39,6 +41,17 @@ namespace Kuittisovellus
             CreateColumns();
             SetControls();
             setUCSize(tabHeight);
+            CreateAndSetImageViewer(tabHeight);
+        }
+
+        private void CreateAndSetImageViewer(int tabHeight)
+        {
+            _imageViewer = new ImageViewer(tabHeight);
+            this.Controls.Add(_imageViewer);
+            _imageViewer.BringToFront();
+            _imageViewer.Hide();
+            _imageViewer.EnableBackButton();
+            _imageViewer.Location = new Point(0, 0);
         }
 
         private void CreateColumns()
@@ -334,20 +347,8 @@ namespace Kuittisovellus
 
         private void ShowPic(Info info)
         {
-            using (Form form = new Form())
-            {
-
-                Bitmap img = new Bitmap(info.ImgPath);
-                form.StartPosition = FormStartPosition.CenterScreen;
-                form.Size = img.Size;
-
-                PictureBox pb = new PictureBox();
-                pb.Dock = DockStyle.Fill;
-                pb.Image = img;
-
-                form.Controls.Add(pb);
-                form.ShowDialog();
-            }
+            _imageViewer.AddImage(Image.FromFile(info.ImgPath), null);
+            _imageViewer.Show();
         }
 
         private void DeleteButton_Click(object sender, EventArgs e)

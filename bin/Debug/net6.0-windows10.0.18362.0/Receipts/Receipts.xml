@@ -2,10 +2,26 @@
 <ArrayOfInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Info>
     <ID>a</ID>
-    <Name>yeahh buddy</Name>
-    <ExpirationDate>12/02/2023</ExpirationDate>
-    <PurchaseDate>12/02/2022</PurchaseDate>
+    <Name>car</Name>
+    <ExpirationDate>12/02/2024</ExpirationDate>
+    <PurchaseDate>12/02/2021</PurchaseDate>
+    <Cost>550</Cost>
+    <ImgPath />
+  </Info>
+  <Info>
+    <ID>b</ID>
+    <Name>dog</Name>
+    <ExpirationDate>12/02/2028</ExpirationDate>
+    <PurchaseDate>12/02/2025</PurchaseDate>
     <Cost>5555</Cost>
+    <ImgPath />
+  </Info>
+  <Info>
+    <ID>c</ID>
+    <Name>house</Name>
+    <ExpirationDate>12/02/2055</ExpirationDate>
+    <PurchaseDate>12/02/2032</PurchaseDate>
+    <Cost>15000</Cost>
     <ImgPath>C:\Users\tuomas\Pictures\Saved Pictures\15.04.2024 14.22.13.Jpeg</ImgPath>
   </Info>
 </ArrayOfInfo>

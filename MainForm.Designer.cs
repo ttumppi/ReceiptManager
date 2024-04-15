@@ -35,6 +35,8 @@ namespace Kuittisovellus
             IPLabel = new Label();
             SearchForPhoneAppButton = new Button();
             ForStyling = new Label();
+            ConnectionText = new Label();
+            ConnectionStateLabel = new Label();
             SuspendLayout();
             // 
             // ReceiptsTabButton
@@ -73,9 +75,10 @@ namespace Kuittisovellus
             // IPLabel
             // 
             IPLabel.AutoSize = true;
-            IPLabel.Location = new Point(1301, 14);
+            IPLabel.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            IPLabel.Location = new Point(1293, 4);
             IPLabel.Name = "IPLabel";
-            IPLabel.Size = new Size(70, 20);
+            IPLabel.Size = new Size(60, 17);
             IPLabel.TabIndex = 21;
             IPLabel.Text = "Device IP";
             // 
@@ -99,11 +102,33 @@ namespace Kuittisovellus
             ForStyling.Size = new Size(1499, 1);
             ForStyling.TabIndex = 23;
             // 
+            // ConnectionText
+            // 
+            ConnectionText.AutoSize = true;
+            ConnectionText.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            ConnectionText.Location = new Point(1293, 25);
+            ConnectionText.Name = "ConnectionText";
+            ConnectionText.Size = new Size(113, 17);
+            ConnectionText.TabIndex = 24;
+            ConnectionText.Text = "Connection State :";
+            // 
+            // ConnectionStateLabel
+            // 
+            ConnectionStateLabel.AutoSize = true;
+            ConnectionStateLabel.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            ConnectionStateLabel.Location = new Point(1412, 25);
+            ConnectionStateLabel.Name = "ConnectionStateLabel";
+            ConnectionStateLabel.Size = new Size(35, 17);
+            ConnectionStateLabel.TabIndex = 25;
+            ConnectionStateLabel.Text = "false";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1499, 751);
+            Controls.Add(ConnectionStateLabel);
+            Controls.Add(ConnectionText);
             Controls.Add(ForStyling);
             Controls.Add(SearchForPhoneAppButton);
             Controls.Add(IPLabel);
@@ -126,5 +151,7 @@ namespace Kuittisovellus
         private Label IPLabel;
         private Button SearchForPhoneAppButton;
         private Label ForStyling;
+        private Label ConnectionText;
+        private Label ConnectionStateLabel;
     }
 }

@@ -1,2 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<UniqueIDGenerator xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<UniqueIDGenerator>
+  <LetterAmount>1</LetterAmount>
+  <Counters>
+    <Counter>
+      <Amount>3</Amount>
+      <Max>24</Max>
+    </Counter>
+  </Counters>
+</UniqueIDGenerator>

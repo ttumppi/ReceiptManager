@@ -30,8 +30,8 @@ namespace Kuittisovellus
             {
                 _imageReceivedListener.Invoke();
             }
-            
-            
+
+
             if (PictureBox.InvokeRequired)
             {
 
@@ -89,6 +89,23 @@ namespace Kuittisovellus
         public void RegisterImageReceivedListener(Action listener)
         {
             _imageReceivedListener = listener;
+        }
+
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            Hide();
+        }
+
+        public void EnableBackButton()
+        {
+            BackButton.Enabled = true;
+            BackButton.Visible = true;
+        }
+
+        public void DisableBackButton()
+        {
+            BackButton.Enabled = false;
+            BackButton.Visible = false;
         }
     }
 

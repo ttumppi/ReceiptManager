@@ -1,14 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
+using System.Runtime.Serialization;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Kuittisovellus
 {
     [Serializable]
-    public class UniqueIDGenerator
+    public class UniqueIDGenerator: IXmlSerializable
     {
         [XmlIgnore]
         private List<string> _alphabets = new List<string>() { "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q",
@@ -17,15 +21,21 @@ namespace Kuittisovellus
 
         private List<Counter> _indexes = new List<Counter>();
         private int _amountOfLetters = 1;
+
+        
         
         
 
         public UniqueIDGenerator()
         {
-            _indexes.Add(new Counter(_alphabets.Count() - 1));
+            
         }
         public string GenerateUniqueID()
         {
+            if (_indexes.Count == 0)
+            {
+                _indexes.Add(new Counter(_alphabets.Count - 1));
+            }
             string _id = string.Empty;
             for (int i = 0; i < _amountOfLetters; i++)
             {
@@ -68,9 +78,69 @@ namespace Kuittisovellus
             }
             return new UniqueIDGenerator();
         }
+
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
+
+        public void WriteXml(XmlWriter writer)
+        {
+            writer.WriteElementString("LetterAmount", _amountOfLetters.ToString());
+            writer.WriteStartElement("Counters");
+            foreach(Counter counter in _indexes)
+            {
+                writer.WriteStartElement("Counter");
+                writer.WriteElementString("Amount", counter.Count.ToString());
+                writer.WriteElementString("Max", counter.Max.ToString());
+                writer.WriteEndElement();
+            }
+            writer.WriteEndElement();
+            
+            
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            while (!reader.EOF)
+            {
+                if (reader.Name == "LetterAmount")
+                {
+                    _amountOfLetters = Int32.Parse(reader.ReadElementContentAsString());
+                    
+                }
+                if (reader.Name == "Counters")
+                {
+                    reader.Read();
+                    while (reader.Name != "Counters")
+                    {
+                        while (reader.Name != "Amount")
+                        {
+                            reader.Read();
+                        }
+                        Counter counter = new Counter();
+                        counter.ReadXml(reader);
+                        _indexes.Add(counter);
+                        while (reader.Name != "Amount")
+                        {
+                            if (reader.Name == "Counters")
+                            {
+                                break;
+                            }
+                            reader.Read();
+                        }
+                    }
+                    
+
+                }
+                reader.Read();
+            }
+        }
+
+
     }
 
-    public class Counter
+    public class Counter: IXmlSerializable
     {
         private int _counter;
         private int _max;
@@ -93,6 +163,11 @@ namespace Kuittisovellus
         {
             get { return _counter; }
         }
+
+        public int Max
+        {
+            get { return _max; }
+        }
         public Counter(int max)
         {
             _counter = 0;
@@ -103,6 +178,11 @@ namespace Kuittisovellus
             _counter = 0;
             _max = max;
             _link = link;
+        }
+
+        public Counter()
+        {
+
         }
        
         public void Advance()
@@ -126,6 +206,21 @@ namespace Kuittisovellus
             }
             
         }
+
+        public void WriteXml(XmlWriter writer)
+        {
+
+        }
+
+        public void ReadXml(XmlReader reader)
+        {
+            _counter = Int32.Parse(reader.ReadElementContentAsString());
+            _max = Int32.Parse(reader.ReadElementContentAsString());
+        }
         
+        public XmlSchema GetSchema()
+        {
+            return null;
+        }
     }
 }

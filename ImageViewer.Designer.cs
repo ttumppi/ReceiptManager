@@ -33,6 +33,7 @@
             CancelButton = new Button();
             label1 = new Label();
             ConfirmationControlsPanel = new Panel();
+            BackButton = new Button();
             ((System.ComponentModel.ISupportInitialize)PictureBox).BeginInit();
             ConfirmationControlsPanel.SuspendLayout();
             SuspendLayout();
@@ -88,10 +89,23 @@
             ConfirmationControlsPanel.TabIndex = 4;
             ConfirmationControlsPanel.Visible = false;
             // 
+            // BackButton
+            // 
+            BackButton.Enabled = false;
+            BackButton.Location = new Point(3, 3);
+            BackButton.Name = "BackButton";
+            BackButton.Size = new Size(126, 47);
+            BackButton.TabIndex = 5;
+            BackButton.Text = "Back";
+            BackButton.UseVisualStyleBackColor = true;
+            BackButton.Visible = false;
+            BackButton.Click += BackButton_Click;
+            // 
             // ImageViewer
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(BackButton);
             Controls.Add(ConfirmationControlsPanel);
             Controls.Add(PictureBox);
             Name = "ImageViewer";
@@ -109,5 +123,6 @@
         private Button CancelButton;
         private Label label1;
         private Panel ConfirmationControlsPanel;
+        private Button BackButton;
     }
 }

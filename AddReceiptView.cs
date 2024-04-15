@@ -25,6 +25,7 @@ namespace Kuittisovellus
         string? _sentImagePath;
         Action? _connectionRequestedListener;
         NotificationForm _notification;
+        bool _searching;
 
         public AddReceiptView(int tabHeight, Control parent)
         {
@@ -35,8 +36,9 @@ namespace Kuittisovellus
             setUCSize(tabHeight);
             _appConnected = false;
             CreateAndSetImageViewer(tabHeight);
-            _imageViewer.Hide();
+            
             _notification = new NotificationForm(parent);
+            _searching = false;
         }
 
         private void CreateAndSetImageViewer(int tabHeight)
@@ -47,6 +49,8 @@ namespace Kuittisovellus
             _imageViewer.EnableConfirmationControls();
             this.Controls.Add(_imageViewer);
             _imageViewer.BringToFront();
+            _imageViewer.Hide();
+            _imageViewer.Location = new Point(0, 0);
         }
 
         private void AddButton_Click(object sender, EventArgs e)      // save button
@@ -199,17 +203,26 @@ namespace Kuittisovellus
         {
             if (_appConnected)
             {
+                _searching = false;
                 _notification.SetText("Waiting to receive image");
                 _notification.ShowAndDisableParent();
 
             }
             else
             {
-                if (MessageBox.Show("No app connected, would you like to connect now?", "No connection",
-                    MessageBoxButtons.YesNo).Equals(DialogResult.Yes))
+                if (_searching)
                 {
-                    _connectionRequestedListener.Invoke();
+                    MessageBox.Show("You have to connect the app before you can send an image");
                 }
+                else {
+                    if (MessageBox.Show("No app connected, would you like to connect now?", "No connection",
+                    MessageBoxButtons.YesNo).Equals(DialogResult.Yes))
+                    {
+                        _searching = true;
+                        _connectionRequestedListener.Invoke();
+                    }
+                }
+                    
             }
         }
 

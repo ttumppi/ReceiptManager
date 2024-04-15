@@ -97,9 +97,13 @@ namespace Kuittisovellus
             LinkSaveFunctions();
             CreateAndRunServer();
             IPLabel.Text = GetLocalIP();
+            
         }
 
-
+        private void CreateClient()
+        {
+            _clientSocket = new ClientSocket(IPAddress.Parse("192.168.1.255"), 23499, SocketType.Dgram, ProtocolType.Udp, ";;;");
+        }
 
         private void Read()
         {
@@ -168,8 +172,7 @@ namespace Kuittisovellus
 
         private void CreateClientAndStartIPBroadcast()
         {
-
-            _clientSocket = new ClientSocket(IPAddress.Parse("192.168.1.255"), 23499, SocketType.Dgram, ProtocolType.Udp, ";;;");
+            CreateClient();
             _clientSocket.StartPollingMessage("_IP");
         }
 
@@ -185,22 +188,39 @@ namespace Kuittisovellus
         {
             if (args.State == ServerSocket.ConnectionChangedEventArgs.ConnectionState.Connected)
             {
-                _clientSocket.ShutDown();
+                CloseClient();
+                UpdateConnectionStateLabel("Connected");
                 if (SearchForPhoneAppButton.InvokeRequired)
                 {
                     SearchForPhoneAppButton.Invoke(DisableSearchForPhoneAppButton);
+                    
+                }
+                else
+                {
+                    DisableSearchForPhoneAppButton();
                 }
                 
             }
             else
             {
+                UpdateConnectionStateLabel("Disconnected");
                 if (SearchForPhoneAppButton.InvokeRequired)
                 {
                     SearchForPhoneAppButton.Invoke(EnableSearchForPhoneAppButton);
                 }
+                else
+                {
+                    EnableSearchForPhoneAppButton();
+                }
             }
             
 
+        }
+
+        private void CloseClient()
+        {
+            _clientSocket.ShutDown();
+            
         }
 
         private void EnableSearchForPhoneAppButton()
@@ -236,6 +256,19 @@ namespace Kuittisovellus
             
             return "No network found";
             
+        }
+
+        private void UpdateConnectionStateLabel(string text)
+        {
+            if (ConnectionStateLabel.InvokeRequired)
+            {
+                ConnectionStateLabel.Invoke(() => { UpdateConnectionStateLabel(text); });
+                return;
+            }
+            else
+            {
+                ConnectionStateLabel.Text = text;
+            }
         }
     }
 
