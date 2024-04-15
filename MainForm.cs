@@ -216,6 +216,7 @@ namespace Kuittisovellus
         private void SearchForPhoneAppButton_Click(object sender, EventArgs e)
         {
             CreateClientAndStartIPBroadcast();
+            DisableSearchForPhoneAppButton();
         }
 
         private string GetLocalIP()
