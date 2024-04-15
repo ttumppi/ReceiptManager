@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ReceiptManager;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -23,8 +24,9 @@ namespace Kuittisovellus
         Image? _sentImage;
         string? _sentImagePath;
         Action? _connectionRequestedListener;
+        NotificationForm _notification;
 
-        public AddReceiptView(int tabHeight)
+        public AddReceiptView(int tabHeight, Control parent)
         {
             InitializeComponent();
 
@@ -34,6 +36,7 @@ namespace Kuittisovellus
             _appConnected = false;
             CreateAndSetImageViewer(tabHeight);
             _imageViewer.Hide();
+            _notification = new NotificationForm(parent);
         }
 
         private void CreateAndSetImageViewer(int tabHeight)
@@ -196,7 +199,9 @@ namespace Kuittisovellus
         {
             if (_appConnected)
             {
-                _imageViewer.BringToFront();
+                _notification.SetText("Waiting to receive image");
+                _notification.ShowAndDisableParent();
+
             }
             else
             {
@@ -254,7 +259,7 @@ namespace Kuittisovellus
             string filePath = Path.Combine(_sentImagePath, CurrentTimeToFileName() + "." + ImageFormat.Jpeg);
 
             _sentImage.Save(filePath);
-                
+
 
             _imgPath = filePath;
 
@@ -273,10 +278,13 @@ namespace Kuittisovellus
 
         public void ShowImageView()
         {
+            _notification.HideAndEnableParent();
             if (_imageViewer.InvokeRequired)
             {
                 _imageViewer.Invoke(_imageViewer.Show);
             }
         }
+
+        
     }
 }

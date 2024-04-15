@@ -49,7 +49,7 @@ namespace Kuittisovellus
         private void CreateViews()
         {
             _mainView = new MainListView(Settings.Instance.TabHeight);
-            _addReceiptsView = new AddReceiptView(Settings.Instance.TabHeight);
+            _addReceiptsView = new AddReceiptView(Settings.Instance.TabHeight, this);
             _logView = new LogView(Settings.Instance.TabHeight);
             
         }

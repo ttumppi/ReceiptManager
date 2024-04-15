@@ -23,3 +23,4 @@ C:\Users\tuomas\Source\Repos\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0
 C:\Users\tuomas\Source\Repos\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0\ReceiptManager.pdb
 C:\Users\tuomas\Source\Repos\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0\ReceiptManager.genruntimeconfig.cache
 C:\Users\tuomas\Source\Repos\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0\ref\ReceiptManager.dll
+C:\Users\tuomas\Source\Repos\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0\ReceiptManager.NotificationForm.resources
