@@ -102,6 +102,7 @@ namespace Kuittisovellus
         {
             Write();
             _serverSocket.ShutDown();
+            _clientSocket.ShutDown();
         }
 
         private void ReceiptsTabButton_Click(object sender, EventArgs e)

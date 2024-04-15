@@ -17,7 +17,7 @@ namespace Kuittisovellus
         IPEndPoint _ipEndPoint;
         SocketType _socketType;
         ProtocolType _protocolType;
-        bool _shutdown;
+        volatile bool _shutdown;
         List<Action<byte[]>>? _byteListeners;
         List<Action<Image, byte?>>? _listenersForImage;
         List<Action<string>>? _stringListeners;
@@ -59,7 +59,7 @@ namespace Kuittisovellus
         {
             List<byte[]> bytesReceived = new List<byte[]>();
 
-            Socket? connection = _socket.Accept();
+            Socket? connection = TryAcceptConnection();
 
             string? messageType = null;
 
@@ -67,7 +67,7 @@ namespace Kuittisovellus
             {
                 if (!IsCurrentConnectionAlive(connection))
                 {
-                    connection = _socket.Accept();
+                    connection = TryAcceptConnection();
                 }
 
                 if (IfBytesAvailable(connection))
@@ -79,11 +79,6 @@ namespace Kuittisovellus
                     {
                         messageType = CheckMessageType(data);
                     }
-
-                    
-
-                    
-
 
                     bytesReceived.Add(data);
 
@@ -152,6 +147,18 @@ namespace Kuittisovellus
             _socket.Close();
         }
 
+        private Socket? TryAcceptConnection()
+        {
+            try
+            {
+                Socket connection = _socket.Accept();
+                return connection;
+            }
+            catch(SocketException e)
+            {
+                return null;
+            }
+        }
         
 
 
@@ -199,8 +206,12 @@ namespace Kuittisovellus
             return 0;
         }
 
-        private bool IsCurrentConnectionAlive(Socket connection)
+        private bool IsCurrentConnectionAlive(Socket? connection)
         {
+            if (connection is null)
+            {
+                return false;
+            }
             if (connection.Poll(1000, SelectMode.SelectRead) & connection.Available == 0)
             {
                 return false;
@@ -208,8 +219,12 @@ namespace Kuittisovellus
             return true;
         }
 
-        private bool IfBytesAvailable(Socket connection)
+        private bool IfBytesAvailable(Socket? connection)
         {
+            if (connection is null)
+            {
+                return false;
+            }
             return connection.Available > 0;
         }
 

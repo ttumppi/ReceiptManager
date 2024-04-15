@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Net.Sockets;
 using System.Net;
+using System.Diagnostics;
 
 namespace TestConsole
 {
@@ -13,13 +14,14 @@ namespace TestConsole
         Socket _socket;
         IPAddress _ipAddress;
         IPEndPoint _endPoint;
-        bool _isShutdown;
+        volatile bool _isShutdown;
         SocketType _socketType;
         ProtocolType _protocolType;
-        private int _bytesAvailable;
+        private volatile int _bytesAvailable;
         private Thread _thread;
-        private bool _isPolling;
+        private volatile bool _isPolling;
         string _messageEnd;
+        Task _taskForPoll;
 
         public int BytesAvailable
         {
@@ -68,14 +70,27 @@ namespace TestConsole
             
 
             SetPollingON();
-            new Thread(new ThreadStart(() =>
+            _taskForPoll = new Task(() =>
             {
                 while (_isPolling)
                 {
                     SendMessage(message);
                     Thread.Sleep(500);
                 }
-            })).Start();
+            });
+            _taskForPoll.Start();
+        }
+
+        public void StopPolling()
+        {
+            if (_isPolling)
+            {
+                SetPollingOFF();
+                while (!_taskForPoll.IsCompleted)
+                {
+                    Thread.Sleep(100);
+                }
+            }
         }
 
         private void CheckBytes()
@@ -96,9 +111,8 @@ namespace TestConsole
         public void ShutDown()
         {
             SetShutdownON();
-            SetPollingOFF();
-            //Thread.Sleep(400);
-            //_socket.Disconnect(false);
+            StopPolling();
+            _socket.Close();
         }
 
 
@@ -127,6 +141,8 @@ namespace TestConsole
         {
             _isShutdown = false;
         }
+
+
        
     }
 }
