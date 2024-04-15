@@ -13,26 +13,35 @@ namespace Kuittisovellus
 {
     public partial class ImageViewer : TabUC
     {
+        Action<DialogResult, Image>? _Dialoglistener;
+        Action? _imageReceivedListener;
+
         public ImageViewer(int tabHeight)
         {
             InitializeComponent();
             setUCSize(tabHeight);
         }
 
-       
+
 
         public void AddImage(Image img, byte? orientation)
         {
+            if (_imageReceivedListener is not null)
+            {
+                _imageReceivedListener.Invoke();
+            }
+            
+            
             if (PictureBox.InvokeRequired)
             {
-                
+
                 PictureBox.Invoke(new Action(() => AddImage(img, orientation)));
                 return;
             }
 
-           new ImageFunctions(img, orientation).FlipImageToCorrectOrientation();
-            
-            
+            new ImageFunctions(img, orientation).FlipImageToCorrectOrientation();
+
+
             if (img.Size.Width + img.Size.Height > PictureBox.Size.Width + PictureBox.Size.Height)
             {
                 PictureBox.SizeMode = PictureBoxSizeMode.StretchImage;
@@ -44,7 +53,43 @@ namespace Kuittisovellus
             PictureBox.Image = img;
         }
 
-        
+        private void OKButton_Click(object sender, EventArgs e)
+        {
+            if (_Dialoglistener is not null)
+            {
+                _Dialoglistener.Invoke(DialogResult.OK, PictureBox.Image);
+            }
+        }
+
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            if (_Dialoglistener is not null)
+            {
+                _Dialoglistener.Invoke(DialogResult.Cancel, PictureBox.Image);
+            }
+        }
+
+        public void RegisterConfirmationListener(Action<DialogResult, Image> listener)
+        {
+            _Dialoglistener = listener;
+        }
+
+        public void EnableConfirmationControls()
+        {
+            ConfirmationControlsPanel.Enabled = true;
+            ConfirmationControlsPanel.Visible = true;
+        }
+
+        public void DisableConfirmationControls()
+        {
+            ConfirmationControlsPanel.Enabled = false;
+            ConfirmationControlsPanel.Visible = false;
+        }
+
+        public void RegisterImageReceivedListener(Action listener)
+        {
+            _imageReceivedListener = listener;
+        }
     }
 
     public class ImageFunctions

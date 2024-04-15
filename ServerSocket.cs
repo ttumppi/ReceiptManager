@@ -21,11 +21,13 @@ namespace Kuittisovellus
         List<Action<byte[]>>? _byteListeners;
         List<Action<Image, byte?>>? _listenersForImage;
         List<Action<string>>? _stringListeners;
+        EventHandler<ConnectionChangedEventArgs>? _connectionHandler;
         ServerNotificationMode _mode;
         string _messageEnd;
         Thread _thread;
         byte[] _orientationTag;
         byte? _orientation;
+        bool _connectedToApp;
 
         private readonly static string IMGID = "IMG_";
         private readonly static string IPID = "IP_";
@@ -49,6 +51,7 @@ namespace Kuittisovellus
             _orientationTag = Encoding.UTF8.GetBytes("WO_");
             _orientation = null;
             _stringListeners = new List<Action<string>>();
+            _connectedToApp = false;
 
             _messageTypes = new Dictionary<byte[], string> { { Encoding.UTF8.GetBytes(IMGID), IMGID},
                 {Encoding.UTF8.GetBytes(IPID), IPID },
@@ -67,6 +70,11 @@ namespace Kuittisovellus
             {
                 if (!IsCurrentConnectionAlive(connection))
                 {
+                    if (_connectedToApp)
+                    {
+                        InformOnAppConnectionChange(ConnectionChangedEventArgs.ConnectionState.Disconnected);
+                    }
+                    
                     connection = TryAcceptConnection();
                 }
 
@@ -106,10 +114,13 @@ namespace Kuittisovellus
                         if (messageType == IPID)
                         {
                             finalBytes = RemoveMessageTypeFromBytes(IPID, finalBytes);
-                            InformListeners(Encoding.UTF8.GetString(finalBytes));
+                            InformOnAppConnectionChange(ConnectionChangedEventArgs.ConnectionState.Connected);
+                            
                         }
                        
-                        InformListeners(finalBytes);
+                        InformByteListeners(finalBytes);
+
+                        InformStringListeners(Encoding.UTF8.GetString(finalBytes));
                             
                             
                             
@@ -170,6 +181,11 @@ namespace Kuittisovellus
         public void RegisterListener(Action<string> listener)
         {
             _stringListeners.Add(listener);
+        }
+
+        public void RegisterOnConnectionFoundListener(EventHandler<ConnectionChangedEventArgs> listener)
+        {
+            _connectionHandler += listener;
         }
 
         public void RegisterImageListener(Action<Image, byte?> listener)
@@ -241,7 +257,7 @@ namespace Kuittisovellus
         }
 
 
-        private void InformListeners(byte[] data)
+        private void InformByteListeners(byte[] data)
         {
             if (_byteListeners is null)
             {
@@ -257,7 +273,7 @@ namespace Kuittisovellus
             }
         }
 
-        private void InformListeners(string data)
+        private void InformStringListeners(string data)
         {
             if (_stringListeners is null)
             {
@@ -285,6 +301,8 @@ namespace Kuittisovellus
             }
             _orientation = null;
         }
+
+        
         private Image CreateImage(byte[] bytes)
         {
             using (MemoryStream stream = new MemoryStream(bytes))
@@ -376,6 +394,37 @@ namespace Kuittisovellus
         private byte[] RemoveImageOrientationData(byte[] data)
         {
             return data.Skip(_orientationTag.Length + 1).ToArray();
+        }
+
+        private void InformOnAppConnectionChange(ConnectionChangedEventArgs.ConnectionState state)
+        {
+
+
+            _connectedToApp = state.Equals(ConnectionChangedEventArgs.ConnectionState.Connected);
+            
+            _connectionHandler?.Invoke(this,
+                                new ConnectionChangedEventArgs(state));
+        }
+
+        public class ConnectionChangedEventArgs : EventArgs
+        {
+            ConnectionState _state;
+            public ConnectionState State
+            {
+                get { return _state; }
+            }
+
+            public ConnectionChangedEventArgs(ConnectionState state)
+            {
+                _state = state;
+            }
+
+            public enum ConnectionState
+            {
+                None = 0,
+                Connected = 1,
+                Disconnected = 2,
+            }
         }
     }
 

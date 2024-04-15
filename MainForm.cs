@@ -28,7 +28,6 @@ namespace Kuittisovellus
 
         private ServerSocket _serverSocket;
 
-        private ImageViewer _imageViewer;
 
         private ClientSocket _clientSocket;
 
@@ -44,16 +43,34 @@ namespace Kuittisovellus
 
             Settings.Instance.UCSize = new Size(ClientSize.Width, ClientSize.Height - ReceiptsTabButton.Size.Height);
 
+
+        }
+
+        private void CreateViews()
+        {
+            _mainView = new MainListView(Settings.Instance.TabHeight);
+            _addReceiptsView = new AddReceiptView(Settings.Instance.TabHeight);
+            _logView = new LogView(Settings.Instance.TabHeight);
+            
+        }
+
+        private void SetAddReceiptsView()
+        {
+            _addReceiptsView.RegisterOnConnectionRequestedListener(CreateClientAndStartIPBroadcast);
+        }
+
+        private void SetSettings()
+        {
+            Settings.Instance.TabHeight = ReceiptsTabButton.Size.Height;
         }
 
         private void TabInitialization()
         {
+            CreateTab(_mainView);
+            CreateTab(_addReceiptsView);
+            CreateTab(_logView);
+
             
-            Settings.Instance.TabHeight = ReceiptsTabButton.Size.Height;
-            CreateTab(_mainView = new MainListView(Settings.Instance.TabHeight));
-            CreateTab(_addReceiptsView = new AddReceiptView(Settings.Instance.TabHeight));
-            CreateTab(_logView = new LogView(Settings.Instance.TabHeight));
-            CreateTab(_imageViewer = new ImageViewer(Settings.Instance.TabHeight));
         }
 
         private void CreateTab(TabUC tab)
@@ -72,6 +89,9 @@ namespace Kuittisovellus
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            SetSettings();
+            CreateViews();
+            SetAddReceiptsView();
             TabInitialization();
             Read();
             LinkSaveFunctions();
@@ -102,7 +122,11 @@ namespace Kuittisovellus
         {
             Write();
             _serverSocket.ShutDown();
-            _clientSocket.ShutDown();
+            if (_clientSocket != null)
+            {
+                _clientSocket.ShutDown();
+            }
+            
         }
 
         private void ReceiptsTabButton_Click(object sender, EventArgs e)
@@ -134,8 +158,10 @@ namespace Kuittisovellus
             _serverSocket = new ServerSocket(
                 23399, SocketType.Stream, ProtocolType.Tcp, ServerSocket.ServerNotificationMode.OnCompleteMessage, ";;;");
 
-            _serverSocket.RegisterImageListener(_imageViewer.AddImage);
-            _serverSocket.RegisterListener(OnConnectionFound);
+   
+            _serverSocket.RegisterImageListener(_addReceiptsView.GetImageViewerOnImage());
+            _serverSocket.RegisterOnConnectionFoundListener(OnConnectionFound);
+            _serverSocket.RegisterOnConnectionFoundListener(_addReceiptsView.OnAppConnectionChange);
 
             _serverSocket.StartListening();
         }
@@ -153,18 +179,41 @@ namespace Kuittisovellus
             _logView.AddMessage(Encoding.UTF8.GetString(array));
         }
 
-        private void ViewImageButton_Click(object sender, EventArgs e)
+        
+
+        private void OnConnectionFound(object? sender, ServerSocket.ConnectionChangedEventArgs args)
         {
-            _imageViewer.BringToFront();
+            if (args.State == ServerSocket.ConnectionChangedEventArgs.ConnectionState.Connected)
+            {
+                _clientSocket.ShutDown();
+                if (SearchForPhoneAppButton.InvokeRequired)
+                {
+                    SearchForPhoneAppButton.Invoke(DisableSearchForPhoneAppButton);
+                }
+                
+            }
+            else
+            {
+                if (SearchForPhoneAppButton.InvokeRequired)
+                {
+                    SearchForPhoneAppButton.Invoke(EnableSearchForPhoneAppButton);
+                }
+            }
+            
+
         }
 
-        private void OnConnectionFound(string ip)
+        private void EnableSearchForPhoneAppButton()
         {
-            _clientSocket.ShutDown();
-
+            SearchForPhoneAppButton.Enabled = true;
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void DisableSearchForPhoneAppButton()
+        {
+            SearchForPhoneAppButton.Enabled = false;
+        }
+
+        private void SearchForPhoneAppButton_Click(object sender, EventArgs e)
         {
             CreateClientAndStartIPBroadcast();
         }

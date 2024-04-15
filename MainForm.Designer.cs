@@ -32,9 +32,8 @@ namespace Kuittisovellus
             ReceiptsTabButton = new Button();
             AddReceiptTabButton = new Button();
             ViewLogTabButton = new Button();
-            ViewImageButton = new Button();
             IPLabel = new Label();
-            button1 = new Button();
+            SearchForPhoneAppButton = new Button();
             ForStyling = new Label();
             SuspendLayout();
             // 
@@ -71,17 +70,6 @@ namespace Kuittisovellus
             ViewLogTabButton.UseVisualStyleBackColor = true;
             ViewLogTabButton.Click += ViewLogTabButton_Click;
             // 
-            // ViewImageButton
-            // 
-            ViewImageButton.Location = new Point(311, 0);
-            ViewImageButton.Margin = new Padding(3, 4, 3, 4);
-            ViewImageButton.Name = "ViewImageButton";
-            ViewImageButton.Size = new Size(104, 47);
-            ViewImageButton.TabIndex = 20;
-            ViewImageButton.Text = "View Image";
-            ViewImageButton.UseVisualStyleBackColor = true;
-            ViewImageButton.Click += ViewImageButton_Click;
-            // 
             // IPLabel
             // 
             IPLabel.AutoSize = true;
@@ -91,17 +79,17 @@ namespace Kuittisovellus
             IPLabel.TabIndex = 21;
             IPLabel.Text = "Device IP";
             // 
-            // button1
+            // SearchForPhoneAppButton
             // 
-            button1.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
-            button1.Location = new Point(1101, 0);
-            button1.Margin = new Padding(3, 4, 3, 4);
-            button1.Name = "button1";
-            button1.Size = new Size(104, 47);
-            button1.TabIndex = 22;
-            button1.Text = "Search For Phone App";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            SearchForPhoneAppButton.Font = new Font("Segoe UI", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            SearchForPhoneAppButton.Location = new Point(1101, 0);
+            SearchForPhoneAppButton.Margin = new Padding(3, 4, 3, 4);
+            SearchForPhoneAppButton.Name = "SearchForPhoneAppButton";
+            SearchForPhoneAppButton.Size = new Size(104, 47);
+            SearchForPhoneAppButton.TabIndex = 22;
+            SearchForPhoneAppButton.Text = "Search For Phone App";
+            SearchForPhoneAppButton.UseVisualStyleBackColor = true;
+            SearchForPhoneAppButton.Click += SearchForPhoneAppButton_Click;
             // 
             // ForStyling
             // 
@@ -117,9 +105,8 @@ namespace Kuittisovellus
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(1499, 751);
             Controls.Add(ForStyling);
-            Controls.Add(button1);
+            Controls.Add(SearchForPhoneAppButton);
             Controls.Add(IPLabel);
-            Controls.Add(ViewImageButton);
             Controls.Add(ViewLogTabButton);
             Controls.Add(AddReceiptTabButton);
             Controls.Add(ReceiptsTabButton);
@@ -136,9 +123,8 @@ namespace Kuittisovellus
         private Button ReceiptsTabButton;
         private Button AddReceiptTabButton;
         private Button ViewLogTabButton;
-        private Button ViewImageButton;
         private Label IPLabel;
-        private Button button1;
+        private Button SearchForPhoneAppButton;
         private Label ForStyling;
     }
 }

@@ -44,76 +44,79 @@
             textBox3 = new TextBox();
             textBox2 = new TextBox();
             textBox1 = new TextBox();
+            SendImageWithAppButton = new Button();
             SuspendLayout();
             // 
             // label6
             // 
             label6.AutoSize = true;
-            label6.Location = new Point(657, 332);
+            label6.Location = new Point(626, 416);
             label6.Name = "label6";
-            label6.Size = new Size(103, 15);
+            label6.Size = new Size(350, 20);
             label6.TabIndex = 32;
-            label6.Text = "Kuva ei pakollinen";
+            label6.Text = "Optional : Set Image with mobile app or from files. ";
             // 
             // label5
             // 
             label5.BorderStyle = BorderStyle.Fixed3D;
-            label5.Location = new Point(318, 421);
+            label5.Location = new Point(363, 561);
             label5.Name = "label5";
-            label5.Size = new Size(730, 10);
+            label5.Size = new Size(834, 13);
             label5.TabIndex = 31;
             // 
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(646, 63);
+            label4.Location = new Point(738, 84);
             label4.Name = "label4";
-            label4.Size = new Size(33, 15);
+            label4.Size = new Size(49, 20);
             label4.TabIndex = 30;
-            label4.Text = "Nimi";
+            label4.Text = "Name";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(646, 260);
+            label3.Location = new Point(738, 347);
             label3.Name = "label3";
-            label3.Size = new Size(48, 15);
+            label3.Size = new Size(62, 20);
             label3.TabIndex = 29;
             label3.Text = "XXXXX€";
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(633, 199);
+            label2.Location = new Point(723, 265);
             label2.Name = "label2";
-            label2.Size = new Size(73, 15);
+            label2.Size = new Size(93, 20);
             label2.TabIndex = 28;
             label2.Text = "XX/XX/XXXX";
             // 
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(633, 134);
+            label1.Location = new Point(723, 179);
             label1.Name = "label1";
-            label1.Size = new Size(73, 15);
+            label1.Size = new Size(93, 20);
             label1.TabIndex = 27;
             label1.Text = "XX/XX/XXXX";
             // 
             // SelectImageButton
             // 
-            SelectImageButton.Location = new Point(587, 350);
+            SelectImageButton.Location = new Point(874, 456);
+            SelectImageButton.Margin = new Padding(3, 4, 3, 4);
             SelectImageButton.Name = "SelectImageButton";
-            SelectImageButton.Size = new Size(238, 41);
+            SelectImageButton.Size = new Size(223, 49);
             SelectImageButton.TabIndex = 26;
-            SelectImageButton.Text = "Select image";
+            SelectImageButton.Text = "Select image from files";
             SelectImageButton.UseVisualStyleBackColor = true;
             SelectImageButton.Click += SelectImageButton_Click;
             // 
             // AddButton
             // 
-            AddButton.Location = new Point(557, 444);
+            AddButton.Location = new Point(637, 592);
+            AddButton.Margin = new Padding(3, 4, 3, 4);
             AddButton.Name = "AddButton";
-            AddButton.Size = new Size(307, 45);
+            AddButton.Size = new Size(351, 60);
             AddButton.TabIndex = 25;
             AddButton.Text = "Add";
             AddButton.UseVisualStyleBackColor = true;
@@ -121,72 +124,92 @@
             // 
             // Cost_input
             // 
-            Cost_input.Location = new Point(445, 278);
+            Cost_input.Location = new Point(509, 371);
+            Cost_input.Margin = new Padding(3, 4, 3, 4);
             Cost_input.Name = "Cost_input";
-            Cost_input.Size = new Size(555, 23);
+            Cost_input.Size = new Size(634, 27);
             Cost_input.TabIndex = 24;
             // 
             // Date_input
             // 
-            Date_input.Location = new Point(445, 217);
+            Date_input.Location = new Point(509, 289);
+            Date_input.Margin = new Padding(3, 4, 3, 4);
             Date_input.Name = "Date_input";
-            Date_input.Size = new Size(555, 23);
+            Date_input.Size = new Size(634, 27);
             Date_input.TabIndex = 23;
             // 
             // Expiration_date_input
             // 
-            Expiration_date_input.Location = new Point(445, 155);
+            Expiration_date_input.Location = new Point(509, 207);
+            Expiration_date_input.Margin = new Padding(3, 4, 3, 4);
             Expiration_date_input.Name = "Expiration_date_input";
-            Expiration_date_input.Size = new Size(555, 23);
+            Expiration_date_input.Size = new Size(634, 27);
             Expiration_date_input.TabIndex = 22;
             // 
             // Purchase_input
             // 
-            Purchase_input.Location = new Point(445, 88);
+            Purchase_input.Location = new Point(509, 117);
+            Purchase_input.Margin = new Padding(3, 4, 3, 4);
             Purchase_input.Name = "Purchase_input";
-            Purchase_input.Size = new Size(555, 23);
+            Purchase_input.Size = new Size(634, 27);
             Purchase_input.TabIndex = 21;
             // 
             // textBox4
             // 
-            textBox4.Location = new Point(391, 278);
+            textBox4.Location = new Point(447, 371);
+            textBox4.Margin = new Padding(3, 4, 3, 4);
             textBox4.Name = "textBox4";
             textBox4.ReadOnly = true;
-            textBox4.Size = new Size(43, 23);
+            textBox4.Size = new Size(49, 27);
             textBox4.TabIndex = 20;
-            textBox4.Text = "Hinta:";
+            textBox4.Text = "Cost";
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(342, 217);
+            textBox3.Location = new Point(391, 289);
+            textBox3.Margin = new Padding(3, 4, 3, 4);
             textBox3.Name = "textBox3";
             textBox3.ReadOnly = true;
-            textBox3.Size = new Size(97, 23);
+            textBox3.Size = new Size(110, 27);
             textBox3.TabIndex = 19;
-            textBox3.Text = "Ostopäivämäärä:";
+            textBox3.Text = "Purchase Date";
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(342, 155);
+            textBox2.Location = new Point(391, 207);
+            textBox2.Margin = new Padding(3, 4, 3, 4);
             textBox2.Name = "textBox2";
             textBox2.ReadOnly = true;
-            textBox2.Size = new Size(97, 23);
+            textBox2.Size = new Size(110, 27);
             textBox2.TabIndex = 18;
-            textBox2.Text = "Erääntymispäivä:";
+            textBox2.Text = "Expiration Date";
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(391, 88);
+            textBox1.Location = new Point(430, 117);
+            textBox1.Margin = new Padding(3, 4, 3, 4);
             textBox1.Name = "textBox1";
             textBox1.ReadOnly = true;
-            textBox1.Size = new Size(48, 23);
+            textBox1.Size = new Size(71, 27);
             textBox1.TabIndex = 17;
-            textBox1.Text = "Ostos:";
+            textBox1.Text = "Purchase";
+            // 
+            // SendImageWithAppButton
+            // 
+            SendImageWithAppButton.Location = new Point(547, 456);
+            SendImageWithAppButton.Margin = new Padding(3, 4, 3, 4);
+            SendImageWithAppButton.Name = "SendImageWithAppButton";
+            SendImageWithAppButton.Size = new Size(223, 49);
+            SendImageWithAppButton.TabIndex = 33;
+            SendImageWithAppButton.Text = "Send Image with app";
+            SendImageWithAppButton.UseVisualStyleBackColor = true;
+            SendImageWithAppButton.Click += SendImageWithAppButton_Click;
             // 
             // AddReceiptView
             // 
-            AutoScaleDimensions = new SizeF(7F, 15F);
+            AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(SendImageWithAppButton);
             Controls.Add(label6);
             Controls.Add(label5);
             Controls.Add(label4);
@@ -203,8 +226,9 @@
             Controls.Add(textBox3);
             Controls.Add(textBox2);
             Controls.Add(textBox1);
+            Margin = new Padding(3, 4, 3, 4);
             Name = "AddReceiptView";
-            Size = new Size(1328, 602);
+            Size = new Size(1518, 803);
             ResumeLayout(false);
             PerformLayout();
         }
@@ -227,5 +251,6 @@
         private TextBox textBox3;
         private TextBox textBox2;
         private TextBox textBox1;
+        private Button SendImageWithAppButton;
     }
 }

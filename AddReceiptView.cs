@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,6 +18,11 @@ namespace Kuittisovellus
         private string _imgPath = string.Empty;
         private EventHandler<Info> _onSave;
         private UniqueIDGenerator _uniqueIDGenerator;
+        volatile bool _appConnected;
+        ImageViewer _imageViewer;
+        Image? _sentImage;
+        string? _sentImagePath;
+        Action? _connectionRequestedListener;
 
         public AddReceiptView(int tabHeight)
         {
@@ -25,6 +31,19 @@ namespace Kuittisovellus
             Read();
 
             setUCSize(tabHeight);
+            _appConnected = false;
+            CreateAndSetImageViewer(tabHeight);
+            _imageViewer.Hide();
+        }
+
+        private void CreateAndSetImageViewer(int tabHeight)
+        {
+            _imageViewer = new ImageViewer(tabHeight);
+            _imageViewer.RegisterConfirmationListener(OnImageViewerResult);
+            _imageViewer.RegisterImageReceivedListener(ShowImageView);
+            _imageViewer.EnableConfirmationControls();
+            this.Controls.Add(_imageViewer);
+            _imageViewer.BringToFront();
         }
 
         private void AddButton_Click(object sender, EventArgs e)      // save button
@@ -42,6 +61,7 @@ namespace Kuittisovellus
                 return;
             }
 
+            SaveImageToFileIfExists();
 
             Info receipt_object = new Info(Purchase_input.Text, Expiration_date_input.Text, // create object
                Date_input.Text, StringFunctions.RemoveNonNumbers(Cost_input.Text), _imgPath, _uniqueIDGenerator.GenerateUniqueID());
@@ -69,6 +89,8 @@ namespace Kuittisovellus
                 }
 
             }
+            _sentImage = null;
+            _sentImagePath = null;
         }
 
         public void RegisterForSave(EventHandler<Info> toRegister)
@@ -85,7 +107,7 @@ namespace Kuittisovellus
                 {
                     return false;
                 }
-                
+
             }
             if (!DateTime.TryParse(Expiration_date_input.Text, out DateTime _temp))
             {
@@ -125,7 +147,7 @@ namespace Kuittisovellus
                     return false;
                 }
             }
-           
+
             if (Cost_input.Text.Contains(','))
             {
                 DialogResult res = MessageBox.Show("Cost can only contain '.'", "Wrong Format", MessageBoxButtons.OK);
@@ -142,7 +164,7 @@ namespace Kuittisovellus
                     return false;
                 }
             }
-            
+
             return true;
         }
 
@@ -161,13 +183,100 @@ namespace Kuittisovellus
 
         public void Write()
         {
-            
+
             _uniqueIDGenerator.Write();
         }
 
         private void Read()
         {
             _uniqueIDGenerator = UniqueIDGenerator.Read();
+        }
+
+        private void SendImageWithAppButton_Click(object sender, EventArgs e)
+        {
+            if (_appConnected)
+            {
+                _imageViewer.BringToFront();
+            }
+            else
+            {
+                if (MessageBox.Show("No app connected, would you like to connect now?", "No connection",
+                    MessageBoxButtons.YesNo).Equals(DialogResult.Yes))
+                {
+                    _connectionRequestedListener.Invoke();
+                }
+            }
+        }
+
+        public void RegisterOnConnectionRequestedListener(Action listener)
+        {
+            _connectionRequestedListener = listener;
+        }
+
+        public void OnAppConnectionChange(object? sender, ServerSocket.ConnectionChangedEventArgs args)
+        {
+            if (args.State == ServerSocket.ConnectionChangedEventArgs.ConnectionState.None)
+            {
+                return;
+            }
+
+            _appConnected = args.State.Equals(ServerSocket.ConnectionChangedEventArgs.ConnectionState.Connected);
+        }
+
+        public void OnImageViewerResult(DialogResult res, Image sentImage)
+        {
+            if (res == DialogResult.OK)
+            {
+                using (FolderBrowserDialog dialog = new FolderBrowserDialog())
+                {
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+                        _sentImage = sentImage;
+                        _sentImagePath = dialog.SelectedPath;
+                    }
+                }
+            }
+            if (_imageViewer.InvokeRequired)
+            {
+                _imageViewer.Invoke(_imageViewer.Hide);
+                return;
+            }
+            _imageViewer.Hide();
+        }
+
+        private void SaveImageToFileIfExists()
+        {
+            if (_sentImage is null)
+            {
+                return;
+            }
+
+            string filePath = Path.Combine(_sentImagePath, CurrentTimeToFileName() + "." + ImageFormat.Jpeg);
+
+            _sentImage.Save(filePath);
+                
+
+            _imgPath = filePath;
+
+            _sentImage = null;
+            _sentImagePath = null;
+        }
+
+        private string CurrentTimeToFileName()
+        {
+            return DateTime.Now.ToString("dd:MM:yyyy HH:mm:ss");
+        }
+        public Action<Image, byte?> GetImageViewerOnImage()
+        {
+            return _imageViewer.AddImage;
+        }
+
+        public void ShowImageView()
+        {
+            if (_imageViewer.InvokeRequired)
+            {
+                _imageViewer.Invoke(_imageViewer.Show);
+            }
         }
     }
 }
