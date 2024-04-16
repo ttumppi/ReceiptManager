@@ -71,7 +71,7 @@ namespace Kuittisovellus
             SaveImageToFileIfExists();
 
             Info receipt_object = new Info(Purchase_input.Text, Expiration_date_input.Text, // create object
-               Date_input.Text, StringFunctions.RemoveNonNumbers(Cost_input.Text), _imgPath, _uniqueIDGenerator.GenerateUniqueID());
+               Date_input.Text, Cost_input.Text, _imgPath, _uniqueIDGenerator.GenerateUniqueID());
 
             _onSave(this, receipt_object);
 
@@ -155,6 +155,8 @@ namespace Kuittisovellus
                 }
             }
 
+            Cost_input.Text = StringFunctions.RemoveNonNumbersRetainDot(Cost_input.Text);
+
             if (Cost_input.Text.Contains(','))
             {
                 DialogResult res = MessageBox.Show("Cost can only contain '.'", "Wrong Format", MessageBoxButtons.OK);
@@ -171,6 +173,23 @@ namespace Kuittisovellus
                     return false;
                 }
             }
+            if (!Cost_input.Text.Any(char.IsDigit))
+            {
+                DialogResult res = MessageBox.Show("Cost must have numbers", "Wrong format", MessageBoxButtons.OK);
+                if (res == DialogResult.OK)
+                {
+                    return false;
+                }
+            }
+            if (Cost_input.Text[Cost_input.Text.Length-1] == '.')
+            {
+                while (Cost_input.Text[Cost_input.Text.Length -1] == '.')
+                {
+                    Cost_input.Text = Cost_input.Text.Remove(Cost_input.Text.Length - 1);
+                }
+               
+            }
+            
 
             return true;
         }

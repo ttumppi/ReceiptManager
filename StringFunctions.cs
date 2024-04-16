@@ -9,9 +9,9 @@ namespace Kuittisovellus
 {
     public static class StringFunctions
     {
-        public static string RemoveNonNumbers(string s)
+        public static string RemoveNonNumbersRetainDot(string s)
         {
-            return Regex.Replace(s, "[^0-9.,]", string.Empty);
+            return Regex.Replace(s, "[^0-9.]", string.Empty);
         }
 
     }

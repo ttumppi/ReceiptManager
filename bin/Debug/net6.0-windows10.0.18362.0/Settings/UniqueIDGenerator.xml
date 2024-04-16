@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <UniqueIDGenerator>
-  <LetterAmount>1</LetterAmount>
+  <LetterAmount>2</LetterAmount>
   <Counters>
+    <Counter>
+      <Amount>0</Amount>
+      <Max>24</Max>
+    </Counter>
     <Counter>
       <Amount>3</Amount>
       <Max>24</Max>
