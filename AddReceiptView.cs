@@ -27,6 +27,7 @@ namespace Kuittisovellus
         NotificationForm _notification;
         bool _searching;
         Info? _currentEditObject;
+        Action<Info>? _onEdit;
 
         public AddReceiptView(int tabHeight, Control parent, Mode mode)
         {
@@ -109,6 +110,11 @@ namespace Kuittisovellus
         public void RegisterForSave(EventHandler<Info> toRegister)
         {
             _onSave += toRegister;
+        }
+
+        public void RegisterForEdit(Action<Info> action)
+        {
+            _onEdit = action;
         }
 
         private bool isDateValid()
@@ -394,8 +400,11 @@ namespace Kuittisovellus
                 _currentEditObject = new Info(PurchaseNameInput.Text, ExpirationDateInput.Text, PurchaseDateInput.Text,
                     CostInput.Text, _imgPath, _currentEditObject.ID);
             }
-
-            
+            if (_onEdit is null)
+            {
+                return;
+            }
+            _onEdit.Invoke(_currentEditObject);
         }
 
         private void EnableEditMode()

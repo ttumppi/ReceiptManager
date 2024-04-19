@@ -83,6 +83,7 @@ namespace Kuittisovellus
         {
 
             _addReceiptsView.RegisterForSave(OnSave);
+
         }
 
 

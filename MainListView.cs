@@ -60,6 +60,7 @@ namespace Kuittisovellus
         private void CreateAndSetEditReceiptView(int tabHeight, Control parent)
         {
             _addReceiptView = new AddReceiptView(tabHeight, parent, AddReceiptView.Mode.Edit);
+            _addReceiptView.RegisterForEdit(EditListView);
             this.Controls.Add(_addReceiptView);
             _addReceiptView.Hide();
             _addReceiptView.BringToFront();
@@ -125,6 +126,21 @@ namespace Kuittisovellus
             }
 
             _receiptItems.Add(item.ID, item);
+        }
+
+        public void EditListView(Info item)
+        {
+            if (_receiptItems.ContainsKey(item.ID))
+            {
+                _receiptItems[item.ID] = item;
+                UpdateListView();
+            }
+            else
+            {
+                _receiptItems.Add(item.ID, item);
+                UpdateListView(item);
+            }
+            
         }
 
 
@@ -334,24 +350,7 @@ namespace Kuittisovellus
                         return;
                     }
                 }
-                //ListViewItem selected = ReceiptListView.SelectedItems[0];
-
-                //foreach (Info item in _receiptItems)
-                //{
-                //    PropertyInfo[] properties = item.GetType().GetProperties();
-                //    for (int i = 0; i < selected.SubItems.Count; i++)
-                //    {
-                //        if (properties[i].GetValue(item).ToString() != selected.SubItems[i].Text)
-                //        {
-                //            break;
-                //        }
-                //        if (i == selected.SubItems.Count - 1)
-                //        {
-                //            ShowPic(item);
-                //            return;
-                //        }
-                //    }
-                //}
+                
 
 
             }
