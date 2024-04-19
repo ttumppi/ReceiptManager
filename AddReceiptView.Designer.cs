@@ -33,22 +33,24 @@
             label1 = new Label();
             SelectImageButton = new Button();
             AddButton = new Button();
-            Cost_input = new TextBox();
-            Date_input = new TextBox();
-            Expiration_date_input = new TextBox();
-            Purchase_input = new TextBox();
+            CostInput = new TextBox();
+            PurchaseDateInput = new TextBox();
+            ExpirationDateInput = new TextBox();
+            PurchaseNameInput = new TextBox();
             textBox4 = new TextBox();
             textBox3 = new TextBox();
             textBox2 = new TextBox();
             textBox1 = new TextBox();
             SendImageWithAppButton = new Button();
             panel1 = new Panel();
+            panel3 = new Panel();
             label3 = new Label();
             panel2 = new Panel();
-            panel3 = new Panel();
+            BackButton = new Button();
+            EditButton = new Button();
             panel1.SuspendLayout();
-            panel2.SuspendLayout();
             panel3.SuspendLayout();
+            panel2.SuspendLayout();
             SuspendLayout();
             // 
             // label6
@@ -91,6 +93,7 @@
             // 
             // AddButton
             // 
+            AddButton.Enabled = false;
             AddButton.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
             AddButton.Location = new Point(502, 291);
             AddButton.Margin = new Padding(3, 4, 3, 4);
@@ -99,39 +102,40 @@
             AddButton.TabIndex = 25;
             AddButton.Text = "Finish";
             AddButton.UseVisualStyleBackColor = true;
+            AddButton.Visible = false;
             AddButton.Click += AddButton_Click;
             // 
-            // Cost_input
+            // CostInput
             // 
-            Cost_input.Location = new Point(151, 237);
-            Cost_input.Margin = new Padding(3, 4, 3, 4);
-            Cost_input.Name = "Cost_input";
-            Cost_input.Size = new Size(213, 27);
-            Cost_input.TabIndex = 24;
+            CostInput.Location = new Point(151, 237);
+            CostInput.Margin = new Padding(3, 4, 3, 4);
+            CostInput.Name = "CostInput";
+            CostInput.Size = new Size(213, 27);
+            CostInput.TabIndex = 24;
             // 
-            // Date_input
+            // PurchaseDateInput
             // 
-            Date_input.Location = new Point(151, 192);
-            Date_input.Margin = new Padding(3, 4, 3, 4);
-            Date_input.Name = "Date_input";
-            Date_input.Size = new Size(213, 27);
-            Date_input.TabIndex = 23;
+            PurchaseDateInput.Location = new Point(151, 192);
+            PurchaseDateInput.Margin = new Padding(3, 4, 3, 4);
+            PurchaseDateInput.Name = "PurchaseDateInput";
+            PurchaseDateInput.Size = new Size(213, 27);
+            PurchaseDateInput.TabIndex = 23;
             // 
-            // Expiration_date_input
+            // ExpirationDateInput
             // 
-            Expiration_date_input.Location = new Point(151, 118);
-            Expiration_date_input.Margin = new Padding(3, 4, 3, 4);
-            Expiration_date_input.Name = "Expiration_date_input";
-            Expiration_date_input.Size = new Size(213, 27);
-            Expiration_date_input.TabIndex = 22;
+            ExpirationDateInput.Location = new Point(151, 118);
+            ExpirationDateInput.Margin = new Padding(3, 4, 3, 4);
+            ExpirationDateInput.Name = "ExpirationDateInput";
+            ExpirationDateInput.Size = new Size(213, 27);
+            ExpirationDateInput.TabIndex = 22;
             // 
-            // Purchase_input
+            // PurchaseNameInput
             // 
-            Purchase_input.Location = new Point(151, 44);
-            Purchase_input.Margin = new Padding(3, 4, 3, 4);
-            Purchase_input.Name = "Purchase_input";
-            Purchase_input.Size = new Size(213, 27);
-            Purchase_input.TabIndex = 21;
+            PurchaseNameInput.Location = new Point(151, 44);
+            PurchaseNameInput.Margin = new Padding(3, 4, 3, 4);
+            PurchaseNameInput.Name = "PurchaseNameInput";
+            PurchaseNameInput.Size = new Size(213, 27);
+            PurchaseNameInput.TabIndex = 21;
             // 
             // textBox4
             // 
@@ -187,6 +191,7 @@
             // panel1
             // 
             panel1.BorderStyle = BorderStyle.FixedSingle;
+            panel1.Controls.Add(EditButton);
             panel1.Controls.Add(panel3);
             panel1.Controls.Add(AddButton);
             panel1.Controls.Add(panel2);
@@ -194,6 +199,25 @@
             panel1.Name = "panel1";
             panel1.Size = new Size(940, 383);
             panel1.TabIndex = 34;
+            // 
+            // panel3
+            // 
+            panel3.BorderStyle = BorderStyle.FixedSingle;
+            panel3.Controls.Add(ExpirationDateInput);
+            panel3.Controls.Add(label3);
+            panel3.Controls.Add(PurchaseDateInput);
+            panel3.Controls.Add(textBox1);
+            panel3.Controls.Add(CostInput);
+            panel3.Controls.Add(PurchaseNameInput);
+            panel3.Controls.Add(textBox4);
+            panel3.Controls.Add(label2);
+            panel3.Controls.Add(textBox3);
+            panel3.Controls.Add(textBox2);
+            panel3.Controls.Add(label1);
+            panel3.Location = new Point(30, 24);
+            panel3.Name = "panel3";
+            panel3.Size = new Size(407, 304);
+            panel3.TabIndex = 35;
             // 
             // label3
             // 
@@ -215,38 +239,46 @@
             panel2.Size = new Size(389, 210);
             panel2.TabIndex = 36;
             // 
-            // panel3
+            // BackButton
             // 
-            panel3.BorderStyle = BorderStyle.FixedSingle;
-            panel3.Controls.Add(Expiration_date_input);
-            panel3.Controls.Add(label3);
-            panel3.Controls.Add(Date_input);
-            panel3.Controls.Add(textBox1);
-            panel3.Controls.Add(Cost_input);
-            panel3.Controls.Add(Purchase_input);
-            panel3.Controls.Add(textBox4);
-            panel3.Controls.Add(label2);
-            panel3.Controls.Add(textBox3);
-            panel3.Controls.Add(textBox2);
-            panel3.Controls.Add(label1);
-            panel3.Location = new Point(30, 24);
-            panel3.Name = "panel3";
-            panel3.Size = new Size(407, 304);
-            panel3.TabIndex = 35;
+            BackButton.Enabled = false;
+            BackButton.Location = new Point(0, 3);
+            BackButton.Name = "BackButton";
+            BackButton.Size = new Size(89, 39);
+            BackButton.TabIndex = 35;
+            BackButton.Text = "Back";
+            BackButton.UseVisualStyleBackColor = true;
+            BackButton.Visible = false;
+            BackButton.Click += BackButton_Click;
+            // 
+            // EditButton
+            // 
+            EditButton.Enabled = false;
+            EditButton.Font = new Font("Segoe UI", 10.8F, FontStyle.Regular, GraphicsUnit.Point);
+            EditButton.Location = new Point(699, 291);
+            EditButton.Margin = new Padding(3, 4, 3, 4);
+            EditButton.Name = "EditButton";
+            EditButton.Size = new Size(192, 56);
+            EditButton.TabIndex = 37;
+            EditButton.Text = "Finish";
+            EditButton.UseVisualStyleBackColor = true;
+            EditButton.Visible = false;
+            EditButton.Click += EditButton_Click;
             // 
             // AddReceiptView
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(BackButton);
             Controls.Add(panel1);
             Margin = new Padding(3, 4, 3, 4);
             Name = "AddReceiptView";
             Size = new Size(1518, 803);
             panel1.ResumeLayout(false);
-            panel2.ResumeLayout(false);
-            panel2.PerformLayout();
             panel3.ResumeLayout(false);
             panel3.PerformLayout();
+            panel2.ResumeLayout(false);
+            panel2.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -257,10 +289,10 @@
         private Label label1;
         private Button SelectImageButton;
         private Button AddButton;
-        private TextBox Cost_input;
-        private TextBox Date_input;
-        private TextBox Expiration_date_input;
-        private TextBox Purchase_input;
+        private TextBox CostInput;
+        private TextBox PurchaseDateInput;
+        private TextBox ExpirationDateInput;
+        private TextBox PurchaseNameInput;
         private TextBox textBox4;
         private TextBox textBox3;
         private TextBox textBox2;
@@ -270,5 +302,7 @@
         private Panel panel2;
         private Label label3;
         private Panel panel3;
+        private Button BackButton;
+        private Button EditButton;
     }
 }

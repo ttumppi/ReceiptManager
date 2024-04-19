@@ -26,8 +26,9 @@ namespace Kuittisovellus
         Action? _connectionRequestedListener;
         NotificationForm _notification;
         bool _searching;
+        Info? _currentEditObject;
 
-        public AddReceiptView(int tabHeight, Control parent)
+        public AddReceiptView(int tabHeight, Control parent, Mode mode)
         {
             InitializeComponent();
 
@@ -36,10 +37,15 @@ namespace Kuittisovellus
             setUCSize(tabHeight);
             _appConnected = false;
             CreateAndSetImageViewer(tabHeight);
-            
+
             _notification = new NotificationForm(parent);
             _searching = false;
+
+            SetButtons(mode);
         }
+
+       
+
 
         private void CreateAndSetImageViewer(int tabHeight)
         {
@@ -70,16 +76,16 @@ namespace Kuittisovellus
 
             SaveImageToFileIfExists();
 
-            Info receipt_object = new Info(Purchase_input.Text, Expiration_date_input.Text, // create object
-               Date_input.Text, Cost_input.Text, _imgPath, _uniqueIDGenerator.GenerateUniqueID());
+            Info receipt_object = new Info(PurchaseNameInput.Text, ExpirationDateInput.Text, // create object
+               PurchaseDateInput.Text, CostInput.Text, _imgPath, _uniqueIDGenerator.GenerateUniqueID());
 
             _onSave(this, receipt_object);
 
             _imgPath = string.Empty;
-            Purchase_input.Text = String.Empty;
-            Expiration_date_input.Text = String.Empty;
-            Date_input.Text = String.Empty;
-            Cost_input.Text = String.Empty;
+            PurchaseNameInput.Text = String.Empty;
+            ExpirationDateInput.Text = String.Empty;
+            PurchaseDateInput.Text = String.Empty;
+            CostInput.Text = String.Empty;
 
         }
 
@@ -107,7 +113,7 @@ namespace Kuittisovellus
 
         private bool isDateValid()
         {
-            if (Expiration_date_input.Text == String.Empty)
+            if (ExpirationDateInput.Text == String.Empty)
             {
                 DialogResult res = MessageBox.Show("Expiration date is in wrong format. Must be in /dd/mm/yyyy/", "Wrong format", MessageBoxButtons.OK);
                 if (res == DialogResult.OK)
@@ -116,7 +122,7 @@ namespace Kuittisovellus
                 }
 
             }
-            if (!DateTime.TryParse(Expiration_date_input.Text, out DateTime _temp))
+            if (!DateTime.TryParse(ExpirationDateInput.Text, out DateTime _temp))
             {
                 DialogResult res = MessageBox.Show("Expiration date is in wrong format. Must be in /dd/mm/yyyy/", "Wrong format", MessageBoxButtons.OK);
                 if (res == DialogResult.OK)
@@ -125,7 +131,7 @@ namespace Kuittisovellus
                 }
             }
 
-            if (Date_input.Text == String.Empty)
+            if (PurchaseDateInput.Text == String.Empty)
             {
                 DialogResult res = MessageBox.Show("Purchase date is in wrong format. Must be in /dd/mm/yyyy/", "Wrong format", MessageBoxButtons.OK);
                 if (res == DialogResult.OK)
@@ -133,7 +139,7 @@ namespace Kuittisovellus
                     return false;
                 }
             }
-            if (!DateTime.TryParse(Date_input.Text, out DateTime _temp1))
+            if (!DateTime.TryParse(PurchaseDateInput.Text, out DateTime _temp1))
             {
                 DialogResult res = MessageBox.Show("Purchase date is in wrong format. Must be in /dd/mm/yyyy/", "Wrong format", MessageBoxButtons.OK);
                 if (res == DialogResult.OK)
@@ -146,7 +152,7 @@ namespace Kuittisovellus
 
         private bool isCostValid()
         {
-            if (Cost_input.Text == String.Empty)
+            if (CostInput.Text == String.Empty)
             {
                 DialogResult res = MessageBox.Show("Cost is empty", "Wrong format", MessageBoxButtons.OK);
                 if (res == DialogResult.OK)
@@ -155,9 +161,9 @@ namespace Kuittisovellus
                 }
             }
 
-            Cost_input.Text = StringFunctions.RemoveNonNumbersRetainDot(Cost_input.Text);
+            CostInput.Text = StringFunctions.RemoveNonNumbersRetainDot(CostInput.Text);
 
-            if (Cost_input.Text.Contains(','))
+            if (CostInput.Text.Contains(','))
             {
                 DialogResult res = MessageBox.Show("Cost can only contain '.'", "Wrong Format", MessageBoxButtons.OK);
                 if (res == DialogResult.OK)
@@ -165,7 +171,7 @@ namespace Kuittisovellus
                     return false;
                 }
             }
-            if (Cost_input.Text.Split('.').Length > 2)
+            if (CostInput.Text.Split('.').Length > 2)
             {
                 DialogResult res = MessageBox.Show("The maximum amount of '.' cost can have is 1", "Wrong Format", MessageBoxButtons.OK);
                 if (res == DialogResult.OK)
@@ -173,7 +179,7 @@ namespace Kuittisovellus
                     return false;
                 }
             }
-            if (!Cost_input.Text.Any(char.IsDigit))
+            if (!CostInput.Text.Any(char.IsDigit))
             {
                 DialogResult res = MessageBox.Show("Cost must have numbers", "Wrong format", MessageBoxButtons.OK);
                 if (res == DialogResult.OK)
@@ -181,22 +187,22 @@ namespace Kuittisovellus
                     return false;
                 }
             }
-            if (Cost_input.Text[Cost_input.Text.Length-1] == '.')
+            if (CostInput.Text[CostInput.Text.Length - 1] == '.')
             {
-                while (Cost_input.Text[Cost_input.Text.Length -1] == '.')
+                while (CostInput.Text[CostInput.Text.Length - 1] == '.')
                 {
-                    Cost_input.Text = Cost_input.Text.Remove(Cost_input.Text.Length - 1);
+                    CostInput.Text = CostInput.Text.Remove(CostInput.Text.Length - 1);
                 }
-               
+
             }
-            
+
 
             return true;
         }
 
         private bool isNameValid()
         {
-            if (Purchase_input.Text == String.Empty)
+            if (PurchaseNameInput.Text == String.Empty)
             {
                 DialogResult res = MessageBox.Show("Purchase must have a name", "Wrong Format", MessageBoxButtons.OK);
                 if (res == DialogResult.OK)
@@ -233,7 +239,8 @@ namespace Kuittisovellus
                 {
                     MessageBox.Show("You have to connect the app before you can send an image");
                 }
-                else {
+                else
+                {
                     if (MessageBox.Show("No app connected, would you like to connect now?", "No connection",
                     MessageBoxButtons.YesNo).Equals(DialogResult.Yes))
                     {
@@ -241,7 +248,7 @@ namespace Kuittisovellus
                         _connectionRequestedListener.Invoke();
                     }
                 }
-                    
+
             }
         }
 
@@ -317,6 +324,118 @@ namespace Kuittisovellus
             }
         }
 
-        
+        private void BackButton_Click(object sender, EventArgs e)
+        {
+            this.Hide();
+            ClearFields();
+            _currentEditObject = null;
+            
+        }
+
+        public void EnableBackButton()
+        {
+            BackButton.Enabled = true;
+            BackButton.Visible = true;
+        }
+
+        public void DisableBackButton()
+        {
+            BackButton.Enabled = false;
+            BackButton.Visible = false;
+        }
+
+        public void FillWithInfoObject(Info info)
+        {
+            PurchaseNameInput.Text = info.Name;
+            ExpirationDateInput.Text = info.ExpirationDate;
+            PurchaseDateInput.Text = info.PurchaseDate;
+            CostInput.Text = info.Cost;
+            _currentEditObject = info;
+        }
+
+        private void ClearFields()
+        {
+            PurchaseNameInput.Text = string.Empty;
+            ExpirationDateInput.Text = string.Empty;
+            PurchaseDateInput.Text = string.Empty;
+            CostInput.Text = string.Empty;
+
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            if (!isDateValid())
+            {
+                return;
+            }
+            if (!isCostValid())
+            {
+                return;
+            }
+            if (!isNameValid())
+            {
+                return;
+            }
+
+            SaveImageToFileIfExists();
+
+            if (_currentEditObject is null)
+            {
+                return;
+            }
+
+            if (_imgPath == string.Empty)
+            {
+                _currentEditObject = new Info(PurchaseNameInput.Text, ExpirationDateInput.Text, PurchaseDateInput.Text,
+                    CostInput.Text, _currentEditObject.ImgPath, _currentEditObject.ID);
+            }
+            else
+            {
+                _currentEditObject = new Info(PurchaseNameInput.Text, ExpirationDateInput.Text, PurchaseDateInput.Text,
+                    CostInput.Text, _imgPath, _currentEditObject.ID);
+            }
+
+            
+        }
+
+        private void EnableEditMode()
+        {
+            AddButton.Enabled = false;
+            AddButton.Visible = false;
+            EditButton.Enabled = true;
+            EditButton.Visible = true;
+        }
+
+        private void EnableAddMode()
+        {
+            AddButton.Enabled = true;
+            AddButton.Visible = true;
+            EditButton.Enabled = false;
+            EditButton.Visible = false;
+        }
+
+        private void SetButtons(Mode mode)
+        {
+            switch (mode)
+            {
+                case Mode.None:
+                    goto case Mode.Add;
+                case Mode.Add:
+                    EnableAddMode();
+                    break;
+                case Mode.Edit:
+                    EnableEditMode();
+                    break;
+            }
+        }
+
+
+
+        public enum Mode
+        {
+            None = 0,
+            Add = 1,
+            Edit = 2,
+        }
     }
 }

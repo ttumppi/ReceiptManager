@@ -19,14 +19,16 @@ namespace Kuittisovellus
     {
         List<int> _columnWidths = new List<int>();
 
-        
-        private Dictionary<string, Info> _receiptItems = new Dictionary<string,Info>();
+
+        private Dictionary<string, Info> _receiptItems = new Dictionary<string, Info>();
 
         private ListViewItem? _selectedItem;
 
         private ImageViewer _imageViewer;
 
-        
+        private AddReceiptView _addReceiptView;
+
+
         public Dictionary<string, Info> Receipts
         {
             get { return _receiptItems; }
@@ -35,13 +37,14 @@ namespace Kuittisovellus
 
         private bool[] _sortOrder = new bool[] { false, false, false, false };
 
-        public MainListView(int tabHeight)
+        public MainListView(int tabHeight, Control parent)
         {
             InitializeComponent();
             CreateColumns();
             SetControls();
             setUCSize(tabHeight);
             CreateAndSetImageViewer(tabHeight);
+            CreateAndSetEditReceiptView(tabHeight, parent);
         }
 
         private void CreateAndSetImageViewer(int tabHeight)
@@ -54,6 +57,15 @@ namespace Kuittisovellus
             _imageViewer.Location = new Point(0, 0);
         }
 
+        private void CreateAndSetEditReceiptView(int tabHeight, Control parent)
+        {
+            _addReceiptView = new AddReceiptView(tabHeight, parent, AddReceiptView.Mode.Edit);
+            this.Controls.Add(_addReceiptView);
+            _addReceiptView.Hide();
+            _addReceiptView.BringToFront();
+            _addReceiptView.EnableBackButton();
+            _addReceiptView.Location = new Point(0, 0);
+        }
         private void CreateColumns()
         {
             ReceiptListView.View = View.Details;
@@ -369,11 +381,13 @@ namespace Kuittisovellus
             if (ReceiptListView.SelectedItems.Count == 0)
             {
                 DeleteButton.Enabled = false;
+                EditButton.Enabled = false;
                 return;
             }
 
             _selectedItem = ReceiptListView.SelectedItems[0];
             DeleteButton.Enabled = true;
+            EditButton.Enabled = true;
         }
 
         private void SetControls()
@@ -418,6 +432,15 @@ namespace Kuittisovellus
 
                     }
                 }
+            }
+        }
+
+        private void EditButton_Click(object sender, EventArgs e)
+        {
+            if (_receiptItems.ContainsKey(_selectedItem.Tag as string))
+            {
+                _addReceiptView.FillWithInfoObject(_receiptItems[_selectedItem.Tag as string]);
+                _addReceiptView.Show();
             }
         }
     }
