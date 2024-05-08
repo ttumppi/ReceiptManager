@@ -27,6 +27,7 @@ namespace Kuittisovellus
         bool _searching;
         Info? _currentEditObject;
         Action<Info>? _onEdit;
+        bool _eventsActive;
 
 
         public AddReceiptView(int tabHeight, Control parent, Mode mode)
@@ -41,6 +42,7 @@ namespace Kuittisovellus
 
             _notification = new NotificationForm(parent);
             _searching = false;
+            _eventsActive = false;
 
             SetButtons(mode);
         }
@@ -239,9 +241,9 @@ namespace Kuittisovellus
         {
             if (_appConnected)
             {
+                
                 _searching = false;
-                _notification.SetText("Waiting to receive image");
-                _notification.ShowAndDisableParent();
+                ShowWaitingForImageIfEventsActive();
 
             }
             else
@@ -276,7 +278,17 @@ namespace Kuittisovellus
             }
 
             _appConnected = args.State.Equals(ServerSocket.ConnectionChangedEventArgs.ConnectionState.Connected);
-            SendImageWithAppButton_Click(this, new EventArgs()); 
+
+            ShowWaitingForImageIfEventsActive();
+        }
+
+        public void ShowWaitingForImageIfEventsActive()
+        {
+            if (ImageEventActive())
+            {
+                _notification.SetText("Waiting to receive image");
+                _notification.ShowAndDisableParent();
+            }
         }
 
         public void OnImageViewerResult(DialogResult res, Image sentImage)
@@ -315,9 +327,13 @@ namespace Kuittisovellus
         {
             return DateTime.Now.ToString("dd:MM:yyyy HH:mm:ss");
         }
-        public Action<Image, byte?> GetImageViewerOnImage()
+
+        public void OnImageReceived(Image image, byte? data)
         {
-            return _imageViewer.AddImage;
+            if (ImageEventActive())
+            {
+                _imageViewer.AddImage(image, data);
+            }
         }
 
         public void ShowImageView()
@@ -456,6 +472,33 @@ namespace Kuittisovellus
         {
             ClearImageButton.Enabled = false;
         }
+
+        public void ActivateImageEvents()
+        {
+            _eventsActive = true;
+        }
+
+        public void DisableImageEvents()
+        {
+            _eventsActive = false;
+        }
+
+        public bool ImageEventActive()
+        {
+            return _eventsActive;
+        }
+
+        public new void Hide()
+        {
+            base.Hide();
+            DisableImageEvents();
+        }
+
+        public new void BringToFront()
+        {
+            base.BringToFront();
+            ActivateImageEvents();
+        } 
 
         public enum Mode
         {

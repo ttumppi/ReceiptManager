@@ -139,11 +139,13 @@ namespace Kuittisovellus
         private void ReceiptsTabButton_Click(object sender, EventArgs e)
         {
             _mainView.BringToFront();
+            _addReceiptsView.Hide();
         }
 
         private void AddReceiptTabButton_Click(object sender, EventArgs e)
         {
             _addReceiptsView.BringToFront();
+            _addReceiptsView.Show();
         }
 
 
@@ -166,8 +168,8 @@ namespace Kuittisovellus
                 23399, SocketType.Stream, ProtocolType.Tcp, ServerSocket.ServerNotificationMode.OnCompleteMessage, ";;;");
 
    
-            _serverSocket.RegisterImageListener(_addReceiptsView.GetImageViewerOnImage());
-            _mainView.LinkImageViewerOnImageListenerToEditView(_serverSocket.RegisterImageListener);
+            _serverSocket.RegisterImageListener(_addReceiptsView.OnImageReceived);
+            _mainView.LinkImageListener(_serverSocket.RegisterImageListener);
             _serverSocket.RegisterOnConnectionFoundListener(OnConnectionFound);
             _serverSocket.RegisterOnConnectionFoundListener(_addReceiptsView.OnAppConnectionChange);
             _mainView.LinkOnConnectionMadeToEditView(_serverSocket.RegisterOnConnectionFoundListener);

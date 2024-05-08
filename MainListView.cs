@@ -74,9 +74,9 @@ namespace Kuittisovellus
             _addReceiptView.RegisterOnConnectionRequestedListener(listener);
         }
 
-        public void LinkImageViewerOnImageListenerToEditView(Action<Action<Image, byte?>> listener)
+        public void LinkImageListener(Action<Action<Image, byte?>> listener)
         {
-            listener.Invoke(_addReceiptView.GetImageViewerOnImage());
+            listener.Invoke(_addReceiptView.OnImageReceived);
         }
 
         public void LinkOnConnectionMadeToEditView(Action<EventHandler<ServerSocket.ConnectionChangedEventArgs>> listener)
@@ -470,6 +470,7 @@ namespace Kuittisovellus
             {
                 _addReceiptView.FillWithInfoObject(_receiptItems[_selectedItem.Tag as string]);
                 _addReceiptView.Show();
+                _addReceiptView.BringToFront();
             }
         }
     }
