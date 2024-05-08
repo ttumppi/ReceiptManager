@@ -39,7 +39,7 @@ namespace Kuittisovellus
                 return;
             }
 
-            new ImageFunctions(img, orientation).FlipImageToCorrectOrientation();
+            Image flippedImage = new ImageFunctions(img, orientation).FlipImageToCorrectOrientation();
 
 
             if (img.Size.Width + img.Size.Height > PictureBox.Size.Width + PictureBox.Size.Height)
@@ -50,7 +50,7 @@ namespace Kuittisovellus
             {
                 PictureBox.SizeMode = PictureBoxSizeMode.Normal;
             }
-            PictureBox.Image = img;
+            PictureBox.Image = flippedImage;
         }
 
         private void OKButton_Click(object sender, EventArgs e)
@@ -129,21 +129,22 @@ namespace Kuittisovellus
             };
             _orientation = orientation;
         }
-        public void FlipImageToCorrectOrientation()
+        public Image FlipImageToCorrectOrientation()
         {
-            
+            Image img = _img.Clone() as Image;
 
             if (_orientation is null)
             {
-                return;
+                return _img;
             }
 
             
 
-            if (_rotationActions.ContainsKey((Orientation)_orientation)){
-                _img.RotateFlip(_rotationActions[(Orientation)_orientation]);
+            if (_rotationActions.ContainsKey((Orientation)_orientation))
+            {
+                img.RotateFlip(_rotationActions[(Orientation)_orientation]);
             }
-            return;
+            return img;
 
 
 

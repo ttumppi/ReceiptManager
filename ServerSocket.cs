@@ -28,6 +28,7 @@ namespace Kuittisovellus
         byte[] _orientationTag;
         byte? _orientation;
         bool _connectedToApp;
+        MemoryStream _streamForImage;
 
         private readonly static string IMGID = "IMG_";
         private readonly static string IPID = "IP_";
@@ -305,11 +306,10 @@ namespace Kuittisovellus
         
         private Image CreateImage(byte[] bytes)
         {
-            using (MemoryStream stream = new MemoryStream(bytes))
-            {
-                stream.Seek(0, SeekOrigin.Begin);
-                return Bitmap.FromStream(stream);
-            }
+                _streamForImage = new MemoryStream(bytes);
+                _streamForImage.Seek(0, SeekOrigin.Begin);
+                return Bitmap.FromStream(_streamForImage);
+            
         }
 
 
