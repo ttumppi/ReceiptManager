@@ -35,7 +35,7 @@ namespace Kuittisovellus
             set { _receiptItems = value; }
         }
 
-        private bool[] _sortOrder = new bool[] { false, false, false, false };
+        private bool[] _sortOrder = new bool[] { false, false, false, false, false };
 
         public MainListView(int tabHeight, Control parent)
         {
@@ -66,10 +66,27 @@ namespace Kuittisovellus
             _addReceiptView.BringToFront();
             _addReceiptView.EnableBackButton();
             _addReceiptView.Location = new Point(0, 0);
+            
+        }
+
+        public void LinkConnectionRequestedListenerToEditView(Action listener)
+        {
+            _addReceiptView.RegisterOnConnectionRequestedListener(listener);
+        }
+
+        public void LinkImageViewerOnImageListenerToEditView(Action<Action<Image, byte?>> listener)
+        {
+            listener.Invoke(_addReceiptView.GetImageViewerOnImage());
+        }
+
+        public void LinkOnConnectionMadeToEditView(Action<EventHandler<ServerSocket.ConnectionChangedEventArgs>> listener)
+        {
+            listener.Invoke(_addReceiptView.OnAppConnectionChange);
         }
         private void CreateColumns()
         {
             ReceiptListView.View = View.Details;
+            ReceiptListView.Columns.Add("Has Image");
             ReceiptListView.Columns.Add("Name");
             ReceiptListView.Columns.Add("Expiration date");
             ReceiptListView.Columns.Add("Purchase date");
@@ -79,6 +96,7 @@ namespace Kuittisovellus
             {
                 _columnWidths.Add(column.Width);
             }
+
         }
 
         public void UpdateListView()
@@ -87,13 +105,20 @@ namespace Kuittisovellus
             foreach (KeyValuePair<string, Info> item in _receiptItems)
             {
                 ListViewItem ltItem = new ListViewItem();
-                ltItem.Text = item.Value.Name;
+                if (item.Value.ImgPath != string.Empty)
+                {
+                    ltItem.ImageIndex = 0;
+                }
+                ltItem.SubItems.Add(item.Value.Name);
                 ltItem.SubItems.Add(item.Value.ExpirationDate);
                 ltItem.SubItems.Add(item.Value.PurchaseDate);
                 ltItem.SubItems.Add(item.Value.Cost);
                 ltItem.Tag = item.Value.ID;
                 ReceiptListView.Items.Add(ltItem);
             }
+            ImageList list = new ImageList();
+            list.Images.Add(new Icon(SystemIcons.Information, 40, 40));
+            ReceiptListView.SmallImageList = list;
             ReceiptListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             for (int i = 0; i < ReceiptListView.Columns.Count; i++)
             {
@@ -110,7 +135,8 @@ namespace Kuittisovellus
 
 
             ListViewItem ltItem = new ListViewItem();
-            ltItem.Text = item.Name;
+            ltItem.Checked = item.ImgPath != string.Empty;
+            ltItem.SubItems.Add(item.Name);
             ltItem.SubItems.Add(item.ExpirationDate);
             ltItem.SubItems.Add(item.PurchaseDate);
             ltItem.SubItems.Add(item.Cost);
@@ -153,28 +179,28 @@ namespace Kuittisovellus
             {
 
                 // if column is name
-                case 0:
+                case 1:
 
                     SortColumn(Column.Name);
                     _sortOrder[(int)Column.Name] = !_sortOrder[(int)Column.Name];
                     break;
 
                 // exp_date
-                case 1:
+                case 2:
 
                     SortColumn(Column.ExpDate);
                     _sortOrder[(int)Column.ExpDate] = !_sortOrder[(int)Column.ExpDate];
                     break;
 
                 // purchase_date
-                case 2:
+                case 3:
 
                     SortColumn(Column.PurchDate);
                     _sortOrder[(int)Column.PurchDate] = !_sortOrder[(int)Column.PurchDate];
                     break;
 
                 // price
-                case 3:
+                case 4:
 
                     SortColumn(Column.Cost);
                     _sortOrder[(int)Column.Cost] = !_sortOrder[(int)Column.Cost];
@@ -192,7 +218,11 @@ namespace Kuittisovellus
                 {
                     if (ii == 0)
                     {
-                        itemList[i].SubItems[0] = ReceiptListView.Items[i].SubItems[ii];
+                        if (ReceiptListView.Items[i].ImageIndex == 0)
+                        {
+                            itemList[i].ImageIndex = 0;
+                        }
+                        //itemList[i].SubItems[0] = ReceiptListView.Items[i].SubItems[ii];
                     }
                     else
                     {

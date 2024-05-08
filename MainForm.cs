@@ -43,6 +43,7 @@ namespace Kuittisovellus
 
             Settings.Instance.UCSize = new Size(ClientSize.Width, ClientSize.Height - ReceiptsTabButton.Size.Height);
 
+            SetFormText("Receipt Manager");
 
         }
 
@@ -57,6 +58,7 @@ namespace Kuittisovellus
         private void SetAddReceiptsView()
         {
             _addReceiptsView.RegisterOnConnectionRequestedListener(CreateClientAndStartIPBroadcast);
+            _mainView.LinkConnectionRequestedListenerToEditView(CreateClientAndStartIPBroadcast);
         }
 
         private void SetSettings()
@@ -165,8 +167,10 @@ namespace Kuittisovellus
 
    
             _serverSocket.RegisterImageListener(_addReceiptsView.GetImageViewerOnImage());
+            _mainView.LinkImageViewerOnImageListenerToEditView(_serverSocket.RegisterImageListener);
             _serverSocket.RegisterOnConnectionFoundListener(OnConnectionFound);
             _serverSocket.RegisterOnConnectionFoundListener(_addReceiptsView.OnAppConnectionChange);
+            _mainView.LinkOnConnectionMadeToEditView(_serverSocket.RegisterOnConnectionFoundListener);
 
             _serverSocket.StartListening();
         }
@@ -270,6 +274,11 @@ namespace Kuittisovellus
             {
                 ConnectionStateLabel.Text = text;
             }
+        }
+
+        private void SetFormText(string text)
+        {
+            this.Text = text;
         }
     }
 

@@ -8,23 +8,23 @@
     "net6.0-windows10.0.18362": []
   },
   "packageFolders": {
-    "C:\\Users\\tuomas\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\Tuomas\\.nuget\\packages\\": {},
+    "E:\\vs2022 shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\ReceiptManager.csproj",
+      "projectUniqueName": "C:\\Users\\Tuomas\\Source\\Repos\\ReceiptManager\\ReceiptManager.csproj",
       "projectName": "ReceiptManager",
-      "projectPath": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\ReceiptManager.csproj",
-      "packagesPath": "C:\\Users\\tuomas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\tuomas\\Source\\Repos\\ReceiptManager\\obj\\",
+      "projectPath": "C:\\Users\\Tuomas\\Source\\Repos\\ReceiptManager\\ReceiptManager.csproj",
+      "packagesPath": "C:\\Users\\Tuomas\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\Tuomas\\Source\\Repos\\ReceiptManager\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
+        "E:\\vs2022 shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\tuomas\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\Tuomas\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -83,7 +83,7 @@
             "privateAssets": "none"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.202\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.204\\RuntimeIdentifierGraph.json"
       }
     }
   }

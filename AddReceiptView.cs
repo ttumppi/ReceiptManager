@@ -21,13 +21,13 @@ namespace Kuittisovellus
         private UniqueIDGenerator _uniqueIDGenerator;
         volatile bool _appConnected;
         ImageViewer _imageViewer;
-        Image? _sentImage;
-        string? _sentImagePath;
+        Image? _selectedImage;
         Action? _connectionRequestedListener;
         NotificationForm _notification;
         bool _searching;
         Info? _currentEditObject;
         Action<Info>? _onEdit;
+
 
         public AddReceiptView(int tabHeight, Control parent, Mode mode)
         {
@@ -45,7 +45,7 @@ namespace Kuittisovellus
             SetButtons(mode);
         }
 
-       
+
 
 
         private void CreateAndSetImageViewer(int tabHeight)
@@ -75,19 +75,25 @@ namespace Kuittisovellus
                 return;
             }
 
-            SaveImageToFileIfExists();
+            SaveImageToImageFolder();
 
             Info receipt_object = new Info(PurchaseNameInput.Text, ExpirationDateInput.Text, // create object
                PurchaseDateInput.Text, CostInput.Text, _imgPath, _uniqueIDGenerator.GenerateUniqueID());
 
             _onSave(this, receipt_object);
 
+            ResetReceiptInfoInView();
+
+        }
+
+        private void ResetReceiptInfoInView()
+        {
             _imgPath = string.Empty;
+
             PurchaseNameInput.Text = String.Empty;
             ExpirationDateInput.Text = String.Empty;
             PurchaseDateInput.Text = String.Empty;
             CostInput.Text = String.Empty;
-
         }
 
         private void SelectImageButton_Click(object sender, EventArgs e)  // opens file explorer and saves selected image path
@@ -99,12 +105,11 @@ namespace Kuittisovellus
                 if (file_explorer.ShowDialog() == DialogResult.OK)
                 {
                     _imgPath = file_explorer.FileName;
-
+                    _selectedImage = Image.FromFile(_imgPath);
+                    EnableClearImgButton();
                 }
 
             }
-            _sentImage = null;
-            _sentImagePath = null;
         }
 
         public void RegisterForSave(EventHandler<Info> toRegister)
@@ -271,20 +276,15 @@ namespace Kuittisovellus
             }
 
             _appConnected = args.State.Equals(ServerSocket.ConnectionChangedEventArgs.ConnectionState.Connected);
+            SendImageWithAppButton_Click(this, new EventArgs()); 
         }
 
         public void OnImageViewerResult(DialogResult res, Image sentImage)
         {
             if (res == DialogResult.OK)
             {
-                using (FolderBrowserDialog dialog = new FolderBrowserDialog())
-                {
-                    if (dialog.ShowDialog() == DialogResult.OK)
-                    {
-                        _sentImage = sentImage;
-                        _sentImagePath = dialog.SelectedPath;
-                    }
-                }
+                _selectedImage = sentImage;
+                EnableClearImgButton();
             }
             if (_imageViewer.InvokeRequired)
             {
@@ -294,22 +294,21 @@ namespace Kuittisovellus
             _imageViewer.Hide();
         }
 
-        private void SaveImageToFileIfExists()
+        private void SaveImageToImageFolder()
         {
-            if (_sentImage is null)
+            if (_selectedImage is null)
             {
                 return;
             }
 
-            string filePath = Path.Combine(_sentImagePath, CurrentTimeToFileName() + "." + ImageFormat.Jpeg);
+            string filePath = Path.Combine(Settings.ImagesPath, CurrentTimeToFileName() + "." + ImageFormat.Jpeg);
 
-            _sentImage.Save(filePath);
+            _selectedImage.Save(filePath);
 
 
             _imgPath = filePath;
 
-            _sentImage = null;
-            _sentImagePath = null;
+            _selectedImage = null;
         }
 
         private string CurrentTimeToFileName()
@@ -335,7 +334,7 @@ namespace Kuittisovellus
             this.Hide();
             ClearFields();
             _currentEditObject = null;
-            
+
         }
 
         public void EnableBackButton()
@@ -383,7 +382,7 @@ namespace Kuittisovellus
                 return;
             }
 
-            SaveImageToFileIfExists();
+            SaveImageToImageFolder();
 
             if (_currentEditObject is null)
             {
@@ -438,7 +437,25 @@ namespace Kuittisovellus
             }
         }
 
+        private void ClearImageButton_Click(object sender, EventArgs e)
+        {
+            _selectedImage = null;
+            if (_currentEditObject is not null)
+            {
+                _currentEditObject = new Info(_currentEditObject.Name, _currentEditObject.ExpirationDate,
+                    _currentEditObject.PurchaseDate, _currentEditObject.Cost, string.Empty, _currentEditObject.ID);
+            }
+        }
 
+        private void EnableClearImgButton()
+        {
+            ClearImageButton.Enabled = true;
+        }
+
+        private void DisableClearImgButton()
+        {
+            ClearImageButton.Enabled = false;
+        }
 
         public enum Mode
         {

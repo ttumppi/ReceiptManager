@@ -18,6 +18,8 @@ namespace Kuittisovellus
         public string ReceiptFile = "Receipts.xml";
         public string UniqueIDGeneratorFile = "UniqueIDGenerator.xml";
 
+        public readonly static string ImagesPath = Path.Combine(Application.StartupPath, "Images");
+
 
         private static Settings _settings;
         private static object _lock = new object();

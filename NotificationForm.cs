@@ -29,11 +29,16 @@ namespace ReceiptManager
 
         private void CenterText()
         {
-            NotificationText.Location = new Point(this.Width / 2 - NotificationText.Width /2, this.Height / 2 - NotificationText.Height /2);
+            NotificationText.Location = new Point(this.Width / 2 - NotificationText.Width / 2, this.Height / 2 - NotificationText.Height / 2);
         }
 
         public void ShowAndDisableParent()
         {
+            if (_parent.InvokeRequired)
+            {
+                _parent.Invoke(ShowAndDisableParent);
+                return;
+            }
             _parent.Enabled = false;
             Show();
             TopMost = true;
@@ -52,5 +57,9 @@ namespace ReceiptManager
             Hide();
         }
 
+        private void CancelButton_Click(object sender, EventArgs e)
+        {
+            HideAndEnableParent();
+        }
     }
 }
