@@ -136,6 +136,12 @@ namespace ReceiptManager
             {
                 _broadCastClientSocket.ShutDown();
             }
+
+            if (_commandImageSenderSocket != null)
+            {
+                _commandImageSenderSocket.ShutDown();
+            }
+            
             
         }
 
@@ -173,9 +179,10 @@ namespace ReceiptManager
    
             _serverSocket.RegisterImageListener(_addReceiptsView.OnImageReceived);
             _mainView.LinkImageListener(_serverSocket.RegisterImageListener);
-            _serverSocket.RegisterOnConnectionFoundListener(OnConnectionFound);
-            _serverSocket.RegisterOnConnectionFoundListener(_addReceiptsView.OnAppConnectionChange);
-            _mainView.LinkOnConnectionMadeToEditView(_serverSocket.RegisterOnConnectionFoundListener);
+
+            _serverSocket.RegisterOnConnectionStateChangeListener(OnAppConnectionChanged);
+            
+
             _serverSocket.RegisterOnIPAddressReceivedListener(OnIPAddressReceived);
 
             _serverSocket.StartListening();
@@ -195,11 +202,11 @@ namespace ReceiptManager
 
         
 
-        private void OnConnectionFound(object? sender, ServerSocket.ConnectionChangedEventArgs args)
+        private void OnAppConnectionChanged(object? sender, ConnectionChangedEventArgs args)
         {
-            if (args.State == ServerSocket.ConnectionChangedEventArgs.ConnectionState.Connected)
+            if (args.State == ConnectionChangedEventArgs.ConnectionState.Connected)
             {
-                CloseClient();
+                
                 UpdateConnectionStateLabel("Connected");
 
                 if (SearchForPhoneAppButton.InvokeRequired)
@@ -229,7 +236,9 @@ namespace ReceiptManager
 
         }
 
-        private void CloseClient()
+      
+
+        private void CloseBroadCastClient()
         {
             _broadCastClientSocket.ShutDown();
             
@@ -290,8 +299,21 @@ namespace ReceiptManager
 
         public void OnIPAddressReceived(object? sender, ServerSocket.IPReceivedEventArgs e)
         {
+            CloseBroadCastClient();
             _commandImageSenderSocket = new ClientSocket(e.Address.Address, 33666, SocketType.Stream, ProtocolType.Tcp, "ACK");
-            _commandImageSenderSocket.Start();
+            _commandImageSenderSocket.RegisterConnectionChangedListener(_addReceiptsView.OnAppConnectionChange);
+
+            _mainView.LinkOnAppConnectionChangeToEditView(_commandImageSenderSocket.RegisterConnectionChangedListener);
+
+            if (_commandImageSenderSocket.Start())
+            {
+                UpdateConnectionStateLabel("Connected");
+            }
+            else
+            {
+                UpdateConnectionStateLabel("Disconnected");
+            }
+
         }
 
         public void OpenCameraOnPhone()

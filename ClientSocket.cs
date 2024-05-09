@@ -5,6 +5,7 @@ using System.Net.Sockets;
 using System.Net;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data;
 
 namespace ReceiptManager
 {
@@ -30,6 +31,8 @@ namespace ReceiptManager
         static object _messageOperationsLock = new object();
 
         byte[] _receivedMessage;
+
+        EventHandler<ConnectionChangedEventArgs>? _connectionHandler;
         
         public ClientSocket(IPAddress ip, int port, SocketType socketType, ProtocolType protocolType, string messageEnd)
         {
@@ -45,6 +48,7 @@ namespace ReceiptManager
             _running = false;
             _listening = false;
             _messages = new List<byte[]>();
+            _receivedMessage = new byte[0];
         }
 
         private void StartClient()
@@ -53,6 +57,7 @@ namespace ReceiptManager
             {
                 if (Disconnected())
                 {
+                    InformListenersOnConnectionChange(ConnectionChangedEventArgs.ConnectionState.Disconnected);
                     break;
                 }
                 if (Listening())
@@ -83,6 +88,7 @@ namespace ReceiptManager
             try
             {
                 _socket.Connect(_endPoint);
+                InformListenersOnConnectionChange(ConnectionChangedEventArgs.ConnectionState.Connected);
             }
             catch {
                 return false;
@@ -226,6 +232,16 @@ namespace ReceiptManager
             }
 
             return true;
+        }
+
+        public void RegisterConnectionChangedListener(EventHandler<ConnectionChangedEventArgs> listener)
+        {
+            _connectionHandler += listener;
+        }
+
+        private void InformListenersOnConnectionChange(ConnectionChangedEventArgs.ConnectionState state)
+        {
+            _connectionHandler?.Invoke(this, new ConnectionChangedEventArgs(state));
         }
     }
 }

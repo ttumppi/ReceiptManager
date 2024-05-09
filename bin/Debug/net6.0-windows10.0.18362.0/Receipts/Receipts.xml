@@ -6,7 +6,7 @@
     <ExpirationDate>12/02/2024</ExpirationDate>
     <PurchaseDate>12/02/2021</PurchaseDate>
     <Cost>55</Cost>
-    <ImgPath>C:\Users\Tuomas\source\repos\ReceiptManager\bin\Debug\net6.0-windows10.0.18362.0\Images\09.05.2024 00.24.03.Jpeg</ImgPath>
+    <ImgPath>E:\Repos\ReceiptManager\ReceiptManager\bin\Debug\net6.0-windows10.0.18362.0\Images\09.05.2024 20.20.05.Jpeg</ImgPath>
   </Info>
   <Info>
     <ID>b</ID>
@@ -14,7 +14,7 @@
     <ExpirationDate>12/02/2028</ExpirationDate>
     <PurchaseDate>12/02/2025</PurchaseDate>
     <Cost>5555</Cost>
-    <ImgPath />
+    <ImgPath>E:\Repos\ReceiptManager\ReceiptManager\bin\Debug\net6.0-windows10.0.18362.0\Images\09.05.2024 23.09.12.Jpeg</ImgPath>
   </Info>
   <Info>
     <ID>c</ID>
@@ -30,7 +30,7 @@
     <ExpirationDate>12/02/2022</ExpirationDate>
     <PurchaseDate>12/02/2022</PurchaseDate>
     <Cost>333</Cost>
-    <ImgPath />
+    <ImgPath>E:\Repos\ReceiptManager\ReceiptManager\bin\Debug\net6.0-windows10.0.18362.0\Images\09.05.2024 23.16.53.Jpeg</ImgPath>
   </Info>
   <Info>
     <ID>e</ID>

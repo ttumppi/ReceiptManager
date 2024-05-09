@@ -79,6 +79,7 @@ namespace ReceiptManager
                     }
                     
                     connection = TryAcceptConnection();
+                    InformOnAppConnectionChange(ConnectionChangedEventArgs.ConnectionState.Connected);
                 }
 
                 if (IfBytesAvailable(connection))
@@ -117,7 +118,6 @@ namespace ReceiptManager
                         if (messageType == IPID)
                         {
                             finalBytes = RemoveMessageTypeFromBytes(IPID, finalBytes);
-                            InformOnAppConnectionChange(ConnectionChangedEventArgs.ConnectionState.Connected);
                             InformIPReceivedListeners(connection.RemoteEndPoint as IPEndPoint);
                         }
                        
@@ -186,7 +186,7 @@ namespace ReceiptManager
             _stringListeners.Add(listener);
         }
 
-        public void RegisterOnConnectionFoundListener(EventHandler<ConnectionChangedEventArgs> listener)
+        public void RegisterOnConnectionStateChangeListener(EventHandler<ConnectionChangedEventArgs> listener)
         {
             _connectionHandler += listener;
         }
@@ -418,26 +418,7 @@ namespace ReceiptManager
             _ipReceivedHandler?.Invoke(this, new IPReceivedEventArgs(addresss));
         }
 
-        public class ConnectionChangedEventArgs : EventArgs
-        {
-            ConnectionState _state;
-            public ConnectionState State
-            {
-                get { return _state; }
-            }
-
-            public ConnectionChangedEventArgs(ConnectionState state)
-            {
-                _state = state;
-            }
-
-            public enum ConnectionState
-            {
-                None = 0,
-                Connected = 1,
-                Disconnected = 2,
-            }
-        }
+        
 
         public class IPReceivedEventArgs
         {

@@ -276,16 +276,16 @@ namespace ReceiptManager
             _openCameraOnPhone = listener;
         }
 
-        public void OnAppConnectionChange(object? sender, ServerSocket.ConnectionChangedEventArgs args)
+        public void OnAppConnectionChange(object? sender, ConnectionChangedEventArgs args)
         {
-            if (args.State == ServerSocket.ConnectionChangedEventArgs.ConnectionState.None)
+            if (args.State == ConnectionChangedEventArgs.ConnectionState.None)
             {
                 return;
             }
 
-            _appConnected = args.State.Equals(ServerSocket.ConnectionChangedEventArgs.ConnectionState.Connected);
+            _appConnected = args.State.Equals(ConnectionChangedEventArgs.ConnectionState.Connected);
 
-            OpenCameraOnPhoneAndShowNotification();
+            
         }
 
         public void OpenCameraOnPhoneAndShowNotification()

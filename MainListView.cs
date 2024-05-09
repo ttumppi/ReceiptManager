@@ -79,7 +79,7 @@ namespace ReceiptManager
             listener.Invoke(_editReceiptView.OnImageReceived);
         }
 
-        public void LinkOnConnectionMadeToEditView(Action<EventHandler<ServerSocket.ConnectionChangedEventArgs>> listener)
+        public void LinkOnAppConnectionChangeToEditView(Action<EventHandler<ConnectionChangedEventArgs>> listener)
         {
             listener.Invoke(_editReceiptView.OnAppConnectionChange);
         }
