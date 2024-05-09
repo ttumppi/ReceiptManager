@@ -6,10 +6,11 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Security.Cryptography;
+using System.Security.Policy;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kuittisovellus
+namespace ReceiptManager
 {
     public class ServerSocket
     {
@@ -22,6 +23,7 @@ namespace Kuittisovellus
         List<Action<Image, byte?>>? _listenersForImage;
         List<Action<string>>? _stringListeners;
         EventHandler<ConnectionChangedEventArgs>? _connectionHandler;
+        EventHandler<IPReceivedEventArgs>? _ipReceivedHandler;
         ServerNotificationMode _mode;
         string _messageEnd;
         Thread _thread;
@@ -116,7 +118,7 @@ namespace Kuittisovellus
                         {
                             finalBytes = RemoveMessageTypeFromBytes(IPID, finalBytes);
                             InformOnAppConnectionChange(ConnectionChangedEventArgs.ConnectionState.Connected);
-                            
+                            InformIPReceivedListeners(connection.RemoteEndPoint as IPEndPoint);
                         }
                        
                         InformByteListeners(finalBytes);
@@ -192,6 +194,11 @@ namespace Kuittisovellus
         public void RegisterImageListener(Action<Image, byte?> listener)
         {
             _listenersForImage.Add(listener);
+        }
+
+        public void RegisterOnIPAddressReceivedListener(EventHandler<IPReceivedEventArgs> listener)
+        {
+            _ipReceivedHandler += listener;
         }
 
         public enum ServerNotificationMode
@@ -406,6 +413,11 @@ namespace Kuittisovellus
                                 new ConnectionChangedEventArgs(state));
         }
 
+        private void InformIPReceivedListeners(IPEndPoint addresss)
+        {
+            _ipReceivedHandler?.Invoke(this, new IPReceivedEventArgs(addresss));
+        }
+
         public class ConnectionChangedEventArgs : EventArgs
         {
             ConnectionState _state;
@@ -424,6 +436,21 @@ namespace Kuittisovellus
                 None = 0,
                 Connected = 1,
                 Disconnected = 2,
+            }
+        }
+
+        public class IPReceivedEventArgs
+        {
+            private IPEndPoint _address;
+
+            public IPEndPoint Address
+            {
+                get { return _address; }
+            }
+
+            public IPReceivedEventArgs(IPEndPoint address)
+            {
+                _address = address;
             }
         }
     }

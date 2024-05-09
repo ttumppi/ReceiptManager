@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "SX93GiFXixepmplEkqXLeGXjVRABm35wzhYJhEIT6xMSj1XRrBdtQ/ZiU9CZSVLRdXDiyjnV+37yVTEOPokTIA==",
+  "dgSpecHash": "FOmLFuiqDSkntm+D5DjbwjD9/keXmtFecyf7Wffmt9O0y3byIV092QMUiaDkin5nClreBGb0XRNpWrlMhVoC8Q==",
   "success": true,
-  "projectFilePath": "C:\\Users\\Tuomas\\source\\repos\\ReceiptManager\\ReceiptManager.csproj",
+  "projectFilePath": "E:\\Repos\\ReceiptManager\\ReceiptManager\\ReceiptManager.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Tuomas\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.18362.31\\microsoft.windows.sdk.net.ref.10.0.18362.31.nupkg.sha512"
   ],

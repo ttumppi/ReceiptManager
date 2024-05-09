@@ -14,11 +14,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tuomas\\Source\\Repos\\ReceiptManager\\ReceiptManager.csproj",
+      "projectUniqueName": "E:\\Repos\\ReceiptManager\\ReceiptManager\\ReceiptManager.csproj",
       "projectName": "ReceiptManager",
-      "projectPath": "C:\\Users\\Tuomas\\Source\\Repos\\ReceiptManager\\ReceiptManager.csproj",
+      "projectPath": "E:\\Repos\\ReceiptManager\\ReceiptManager\\ReceiptManager.csproj",
       "packagesPath": "C:\\Users\\Tuomas\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tuomas\\Source\\Repos\\ReceiptManager\\obj\\",
+      "outputPath": "E:\\Repos\\ReceiptManager\\ReceiptManager\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "E:\\vs2022 shared\\NuGetPackages"

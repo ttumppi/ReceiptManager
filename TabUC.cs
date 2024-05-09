@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Kuittisovellus
+namespace ReceiptManager
 {
     public class TabUC : UserControl
     {

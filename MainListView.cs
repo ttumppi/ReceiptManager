@@ -13,7 +13,7 @@ using System.Windows.Forms;
 using System.Globalization;
 using System.Xml.Serialization;
 
-namespace Kuittisovellus
+namespace ReceiptManager
 {
     public partial class MainListView : TabUC
     {
@@ -26,7 +26,7 @@ namespace Kuittisovellus
 
         private ImageViewer _imageViewer;
 
-        private AddReceiptView _addReceiptView;
+        private AddReceiptView _editReceiptView;
 
 
         public Dictionary<string, Info> Receipts
@@ -59,29 +59,34 @@ namespace Kuittisovellus
 
         private void CreateAndSetEditReceiptView(int tabHeight, Control parent)
         {
-            _addReceiptView = new AddReceiptView(tabHeight, parent, AddReceiptView.Mode.Edit);
-            _addReceiptView.RegisterForEdit(EditListView);
-            this.Controls.Add(_addReceiptView);
-            _addReceiptView.Hide();
-            _addReceiptView.BringToFront();
-            _addReceiptView.EnableBackButton();
-            _addReceiptView.Location = new Point(0, 0);
+            _editReceiptView = new AddReceiptView(tabHeight, parent, AddReceiptView.Mode.Edit);
+            _editReceiptView.RegisterForEdit(EditListView);
+            this.Controls.Add(_editReceiptView);
+            _editReceiptView.Hide();
+            _editReceiptView.BringToFront();
+            _editReceiptView.EnableBackButton();
+            _editReceiptView.Location = new Point(0, 0);
             
         }
 
         public void LinkConnectionRequestedListenerToEditView(Action listener)
         {
-            _addReceiptView.RegisterOnConnectionRequestedListener(listener);
+            _editReceiptView.RegisterOnConnectionRequestedListener(listener);
         }
 
         public void LinkImageListener(Action<Action<Image, byte?>> listener)
         {
-            listener.Invoke(_addReceiptView.OnImageReceived);
+            listener.Invoke(_editReceiptView.OnImageReceived);
         }
 
         public void LinkOnConnectionMadeToEditView(Action<EventHandler<ServerSocket.ConnectionChangedEventArgs>> listener)
         {
-            listener.Invoke(_addReceiptView.OnAppConnectionChange);
+            listener.Invoke(_editReceiptView.OnAppConnectionChange);
+        }
+
+        public void LinkOpenPhoneCameraEditViewEvent(Action listener)
+        {
+            _editReceiptView.RegisterOpenPhoneCameraViewListener(listener);
         }
         private void CreateColumns()
         {
@@ -468,9 +473,9 @@ namespace Kuittisovellus
         {
             if (_receiptItems.ContainsKey(_selectedItem.Tag as string))
             {
-                _addReceiptView.FillWithInfoObject(_receiptItems[_selectedItem.Tag as string]);
-                _addReceiptView.Show();
-                _addReceiptView.BringToFront();
+                _editReceiptView.FillWithInfoObject(_receiptItems[_selectedItem.Tag as string]);
+                _editReceiptView.Show();
+                _editReceiptView.BringToFront();
             }
         }
     }

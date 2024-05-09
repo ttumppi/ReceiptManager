@@ -15,7 +15,7 @@ using System.Net.NetworkInformation;
 
 
 
-namespace Kuittisovellus
+namespace ReceiptManager
 {
     public partial class MainForm : Form
     {
@@ -29,9 +29,9 @@ namespace Kuittisovellus
         private ServerSocket _serverSocket;
 
 
-        private ClientSocket _clientSocket;
+        private BroadCastClientSocket _broadCastClientSocket;
 
-
+        private ClientSocket _commandImageSenderSocket;
 
 
 
@@ -58,7 +58,10 @@ namespace Kuittisovellus
         private void SetAddReceiptsView()
         {
             _addReceiptsView.RegisterOnConnectionRequestedListener(CreateClientAndStartIPBroadcast);
+            _addReceiptsView.RegisterOpenPhoneCameraViewListener(OpenCameraOnPhone);
+
             _mainView.LinkConnectionRequestedListenerToEditView(CreateClientAndStartIPBroadcast);
+            _mainView.LinkOpenPhoneCameraEditViewEvent(OpenCameraOnPhone);
         }
 
         private void SetSettings()
@@ -105,7 +108,7 @@ namespace Kuittisovellus
 
         private void CreateClient()
         {
-            _clientSocket = new ClientSocket(IPAddress.Parse("192.168.1.255"), 23499, SocketType.Dgram, ProtocolType.Udp, ";;;");
+            _broadCastClientSocket = new BroadCastClientSocket(23499, SocketType.Dgram, ProtocolType.Udp, ";;;");
         }
 
         private void Read()
@@ -129,9 +132,9 @@ namespace Kuittisovellus
         {
             Write();
             _serverSocket.ShutDown();
-            if (_clientSocket != null)
+            if (_broadCastClientSocket != null)
             {
-                _clientSocket.ShutDown();
+                _broadCastClientSocket.ShutDown();
             }
             
         }
@@ -173,6 +176,7 @@ namespace Kuittisovellus
             _serverSocket.RegisterOnConnectionFoundListener(OnConnectionFound);
             _serverSocket.RegisterOnConnectionFoundListener(_addReceiptsView.OnAppConnectionChange);
             _mainView.LinkOnConnectionMadeToEditView(_serverSocket.RegisterOnConnectionFoundListener);
+            _serverSocket.RegisterOnIPAddressReceivedListener(OnIPAddressReceived);
 
             _serverSocket.StartListening();
         }
@@ -180,7 +184,7 @@ namespace Kuittisovellus
         private void CreateClientAndStartIPBroadcast()
         {
             CreateClient();
-            _clientSocket.StartPollingMessage("_IP");
+            _broadCastClientSocket.StartPollingMessage("_IP");
         }
 
 
@@ -197,6 +201,7 @@ namespace Kuittisovellus
             {
                 CloseClient();
                 UpdateConnectionStateLabel("Connected");
+
                 if (SearchForPhoneAppButton.InvokeRequired)
                 {
                     SearchForPhoneAppButton.Invoke(DisableSearchForPhoneAppButton);
@@ -226,7 +231,7 @@ namespace Kuittisovellus
 
         private void CloseClient()
         {
-            _clientSocket.ShutDown();
+            _broadCastClientSocket.ShutDown();
             
         }
 
@@ -281,6 +286,17 @@ namespace Kuittisovellus
         private void SetFormText(string text)
         {
             this.Text = text;
+        }
+
+        public void OnIPAddressReceived(object? sender, ServerSocket.IPReceivedEventArgs e)
+        {
+            _commandImageSenderSocket = new ClientSocket(e.Address.Address, 33666, SocketType.Stream, ProtocolType.Tcp, "ACK");
+            _commandImageSenderSocket.Start();
+        }
+
+        public void OpenCameraOnPhone()
+        {
+            _commandImageSenderSocket.AddMessage(new byte[1] {Convert.ToByte(true)});
         }
     }
 

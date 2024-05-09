@@ -1,4 +1,4 @@
-﻿namespace Kuittisovellus
+﻿namespace ReceiptManager
 {
     partial class ImageViewer
     {

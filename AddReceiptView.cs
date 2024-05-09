@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace Kuittisovellus
+namespace ReceiptManager
 {
     public partial class AddReceiptView : TabUC
     {
@@ -28,6 +28,7 @@ namespace Kuittisovellus
         Info? _currentEditObject;
         Action<Info>? _onEdit;
         bool _eventsActive;
+        Action? _openCameraOnPhone;
 
 
         public AddReceiptView(int tabHeight, Control parent, Mode mode)
@@ -243,7 +244,7 @@ namespace Kuittisovellus
             {
                 
                 _searching = false;
-                ShowWaitingForImageIfEventsActive();
+                OpenCameraOnPhoneAndShowNotification();
 
             }
             else
@@ -270,6 +271,11 @@ namespace Kuittisovellus
             _connectionRequestedListener = listener;
         }
 
+        public void RegisterOpenPhoneCameraViewListener(Action listener)
+        {
+            _openCameraOnPhone = listener;
+        }
+
         public void OnAppConnectionChange(object? sender, ServerSocket.ConnectionChangedEventArgs args)
         {
             if (args.State == ServerSocket.ConnectionChangedEventArgs.ConnectionState.None)
@@ -279,6 +285,12 @@ namespace Kuittisovellus
 
             _appConnected = args.State.Equals(ServerSocket.ConnectionChangedEventArgs.ConnectionState.Connected);
 
+            OpenCameraOnPhoneAndShowNotification();
+        }
+
+        public void OpenCameraOnPhoneAndShowNotification()
+        {
+            _openCameraOnPhone?.Invoke();
             ShowWaitingForImageIfEventsActive();
         }
 

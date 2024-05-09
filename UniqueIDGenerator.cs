@@ -9,7 +9,7 @@ using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
 
-namespace Kuittisovellus
+namespace ReceiptManager
 {
     [Serializable]
     public class UniqueIDGenerator: IXmlSerializable

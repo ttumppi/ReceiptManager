@@ -1,5 +1,5 @@
 ﻿using System.Diagnostics;
-namespace Kuittisovellus
+namespace ReceiptManager
 {
     partial class MainForm
     {
