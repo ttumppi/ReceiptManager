@@ -88,6 +88,11 @@ namespace ReceiptManager
         {
             _editReceiptView.RegisterOpenPhoneCameraViewListener(listener);
         }
+
+        public void LinkOnSearchingStateChangeEditView(EventHandler<bool> handler)
+        {
+            handler += _editReceiptView.OnSearchingStateChanged;
+        }
         private void CreateColumns()
         {
             ReceiptListView.View = View.Details;

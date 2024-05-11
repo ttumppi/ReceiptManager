@@ -31,6 +31,7 @@ namespace ReceiptManager
         Action? _openCameraOnPhone;
 
 
+
         public AddReceiptView(int tabHeight, Control parent, Mode mode)
         {
             InitializeComponent();
@@ -249,7 +250,7 @@ namespace ReceiptManager
             }
             else
             {
-                if (_searching)
+                if (Searching())
                 {
                     MessageBox.Show("You have to connect the app before you can send an image");
                 }
@@ -258,7 +259,6 @@ namespace ReceiptManager
                     if (MessageBox.Show("No app connected, would you like to connect now?", "No connection",
                     MessageBoxButtons.YesNo).Equals(DialogResult.Yes))
                     {
-                        _searching = true;
                         _connectionRequestedListener.Invoke();
                     }
                 }
@@ -511,6 +511,32 @@ namespace ReceiptManager
             base.BringToFront();
             ActivateImageEvents();
         } 
+
+        public void OnSearchingStateChanged(object? sender, bool state)
+        {
+            if (state)
+            {
+                SetSearchingStateToSearching();
+                return;
+            }
+            SetSearchingToNotSearching();
+
+        }
+
+        private void SetSearchingStateToSearching()
+        {
+            _searching = true;
+        }
+
+        private void SetSearchingToNotSearching()
+        {
+            _searching = false;
+        }
+
+        private bool Searching()
+        {
+            return _searching;
+        }
 
         public enum Mode
         {

@@ -33,6 +33,8 @@ namespace ReceiptManager
 
         private ClientSocket _commandImageSenderSocket;
 
+        private EventHandler<bool> _searchStateListeners;
+
 
 
 
@@ -59,9 +61,11 @@ namespace ReceiptManager
         {
             _addReceiptsView.RegisterOnConnectionRequestedListener(CreateClientAndStartIPBroadcast);
             _addReceiptsView.RegisterOpenPhoneCameraViewListener(OpenCameraOnPhone);
+            _searchStateListeners += _addReceiptsView.OnSearchingStateChanged;
 
             _mainView.LinkConnectionRequestedListenerToEditView(CreateClientAndStartIPBroadcast);
             _mainView.LinkOpenPhoneCameraEditViewEvent(OpenCameraOnPhone);
+            _mainView.LinkOnSearchingStateChangeEditView(_searchStateListeners);
         }
 
         private void SetSettings()
@@ -192,6 +196,8 @@ namespace ReceiptManager
         {
             CreateClient();
             _broadCastClientSocket.StartPollingMessage("_IP");
+
+            InformSearchStateListeners(true);
         }
 
 
@@ -281,6 +287,11 @@ namespace ReceiptManager
 
         private void UpdateConnectionStateLabel(string text)
         {
+            if (this.Disposing)
+            {
+                return;
+            }
+
             if (ConnectionStateLabel.InvokeRequired)
             {
                 ConnectionStateLabel.Invoke(() => { UpdateConnectionStateLabel(text); });
@@ -314,11 +325,18 @@ namespace ReceiptManager
                 UpdateConnectionStateLabel("Disconnected");
             }
 
+            InformSearchStateListeners(false);
+
         }
 
         public void OpenCameraOnPhone()
         {
             _commandImageSenderSocket.AddMessage(new byte[1] {Convert.ToByte(true)});
+        }
+
+        private void InformSearchStateListeners(bool state)
+        {
+            _searchStateListeners.Invoke(this, state);
         }
     }
 
