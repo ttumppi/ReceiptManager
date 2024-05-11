@@ -42,7 +42,10 @@ namespace ReceiptManager
 
         public Settings()
         {
-
+            if (!Directory.Exists(ImagesPath))
+            {
+                Directory.CreateDirectory(ImagesPath);
+            }
         }
     }
 }

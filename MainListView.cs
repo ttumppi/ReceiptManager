@@ -37,14 +37,14 @@ namespace ReceiptManager
 
         private bool[] _sortOrder = new bool[] { false, false, false, false, false };
 
-        public MainListView(int tabHeight, Control parent)
+        public MainListView(int tabHeight, Control parent, UniqueIDGenerator idGenerator)
         {
             InitializeComponent();
             CreateColumns();
             SetControls();
             setUCSize(tabHeight);
             CreateAndSetImageViewer(tabHeight);
-            CreateAndSetEditReceiptView(tabHeight, parent);
+            CreateAndSetEditReceiptView(tabHeight, parent, idGenerator);
         }
 
         private void CreateAndSetImageViewer(int tabHeight)
@@ -57,9 +57,9 @@ namespace ReceiptManager
             _imageViewer.Location = new Point(0, 0);
         }
 
-        private void CreateAndSetEditReceiptView(int tabHeight, Control parent)
+        private void CreateAndSetEditReceiptView(int tabHeight, Control parent, UniqueIDGenerator idGenerator)
         {
-            _editReceiptView = new AddReceiptView(tabHeight, parent, AddReceiptView.Mode.Edit);
+            _editReceiptView = new AddReceiptView(tabHeight, parent, AddReceiptView.Mode.Edit, idGenerator);
             _editReceiptView.RegisterForEdit(EditListView);
             this.Controls.Add(_editReceiptView);
             _editReceiptView.Hide();
@@ -126,9 +126,12 @@ namespace ReceiptManager
                 ltItem.Tag = item.Value.ID;
                 ReceiptListView.Items.Add(ltItem);
             }
+
             ImageList list = new ImageList();
             list.Images.Add(new Icon(SystemIcons.Information, 40, 40));
             ReceiptListView.SmallImageList = list;
+
+
             ReceiptListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
             for (int i = 0; i < ReceiptListView.Columns.Count; i++)
             {
@@ -145,6 +148,12 @@ namespace ReceiptManager
 
 
             ListViewItem ltItem = new ListViewItem();
+
+            if (item.ImgPath != string.Empty)
+            {
+                ltItem.ImageIndex = 0;
+            }
+
             ltItem.Checked = item.ImgPath != string.Empty;
             ltItem.SubItems.Add(item.Name);
             ltItem.SubItems.Add(item.ExpirationDate);
@@ -482,6 +491,13 @@ namespace ReceiptManager
                 _editReceiptView.Show();
                 _editReceiptView.BringToFront();
             }
+        }
+
+        public new void Hide()
+        {
+            base.Hide();
+            _editReceiptView.Hide();
+           
         }
     }
 }

@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "fnaQiXeVbwx0IsmTvTKzz8EZ3DO80EG5iDJomMJwQ9zMBFExdH3cxtWKQEWUmIPrJiUeZKQPuw1XrZkq2O/jUw==",
+  "success": true,
+  "projectFilePath": "E:\\Repos\\ReceiptManager\\ReceiptManager\\ReceiptManager.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Tuomas\\.nuget\\packages\\microsoft.net.illink.analyzers\\7.0.100-1.23211.1\\microsoft.net.illink.analyzers.7.0.100-1.23211.1.nupkg.sha512",
+    "C:\\Users\\Tuomas\\.nuget\\packages\\microsoft.net.illink.tasks\\7.0.100-1.23211.1\\microsoft.net.illink.tasks.7.0.100-1.23211.1.nupkg.sha512",
+    "C:\\Users\\Tuomas\\.nuget\\packages\\microsoft.netcore.app.runtime.win-x86\\6.0.29\\microsoft.netcore.app.runtime.win-x86.6.0.29.nupkg.sha512",
+    "C:\\Users\\Tuomas\\.nuget\\packages\\microsoft.windowsdesktop.app.runtime.win-x86\\6.0.29\\microsoft.windowsdesktop.app.runtime.win-x86.6.0.29.nupkg.sha512",
+    "C:\\Users\\Tuomas\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.win-x86\\6.0.29\\microsoft.aspnetcore.app.runtime.win-x86.6.0.29.nupkg.sha512",
+    "C:\\Users\\Tuomas\\.nuget\\packages\\microsoft.windows.sdk.net.ref\\10.0.18362.31\\microsoft.windows.sdk.net.ref.10.0.18362.31.nupkg.sha512"
+  ],
+  "logs": []
+}

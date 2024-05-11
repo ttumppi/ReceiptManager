@@ -106,31 +106,37 @@ namespace ReceiptManager
             {
                 if (reader.Name == "LetterAmount")
                 {
-                    _amountOfLetters = Int32.Parse(reader.ReadElementContentAsString());
+                    if (!reader.IsEmptyElement)
+                    {
+                        _amountOfLetters = Int32.Parse(reader.ReadElementContentAsString());
+                    }
+                    
                     
                 }
                 if (reader.Name == "Counters")
                 {
-                    reader.Read();
-                    while (reader.Name != "Counters")
+                    if (!reader.IsEmptyElement)
                     {
-                        while (reader.Name != "Amount")
+                        reader.Read();
+                        while (reader.Name != "Counters")
                         {
-                            reader.Read();
-                        }
-                        Counter counter = new Counter();
-                        counter.ReadXml(reader);
-                        _indexes.Add(counter);
-                        while (reader.Name != "Amount")
-                        {
-                            if (reader.Name == "Counters")
+                            while (reader.Name != "Amount")
                             {
-                                break;
+                                reader.Read();
                             }
-                            reader.Read();
+                            Counter counter = new Counter();
+                            counter.ReadXml(reader);
+                            _indexes.Add(counter);
+                            while (reader.Name != "Amount")
+                            {
+                                if (reader.Name == "Counters")
+                                {
+                                    break;
+                                }
+                                reader.Read();
+                            }
                         }
                     }
-                    
 
                 }
                 reader.Read();

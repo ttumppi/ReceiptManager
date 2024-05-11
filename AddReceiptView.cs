@@ -32,11 +32,11 @@ namespace ReceiptManager
 
 
 
-        public AddReceiptView(int tabHeight, Control parent, Mode mode)
+        public AddReceiptView(int tabHeight, Control parent, Mode mode, UniqueIDGenerator idGenerator)
         {
             InitializeComponent();
 
-            Read();
+            _uniqueIDGenerator = idGenerator;
 
             setUCSize(tabHeight);
             _appConnected = false;
@@ -64,31 +64,7 @@ namespace ReceiptManager
             _imageViewer.Location = new Point(0, 0);
         }
 
-        private void AddButton_Click(object sender, EventArgs e)      // save button
-        {
-            if (!isDateValid())
-            {
-                return;
-            }
-            if (!isCostValid())
-            {
-                return;
-            }
-            if (!isNameValid())
-            {
-                return;
-            }
-
-            SaveImageToImageFolder();
-
-            Info receipt_object = new Info(PurchaseNameInput.Text, ExpirationDateInput.Text, // create object
-               PurchaseDateInput.Text, CostInput.Text, _imgPath, _uniqueIDGenerator.GenerateUniqueID());
-
-            _onSave(this, receipt_object);
-
-            ResetReceiptInfoInView();
-
-        }
+        
 
         private void ResetReceiptInfoInView()
         {
@@ -228,16 +204,7 @@ namespace ReceiptManager
             return true;
         }
 
-        public void Write()
-        {
-
-            _uniqueIDGenerator.Write();
-        }
-
-        private void Read()
-        {
-            _uniqueIDGenerator = UniqueIDGenerator.Read();
-        }
+        
 
         private void SendImageWithAppButton_Click(object sender, EventArgs e)
         {
@@ -350,11 +317,19 @@ namespace ReceiptManager
 
         public void ShowImageView()
         {
+
             _notification.HideAndEnableParent();
-            if (_imageViewer.InvokeRequired)
+
+            if (ImageEventActive())
             {
-                _imageViewer.Invoke(_imageViewer.Show);
+                if (_imageViewer.InvokeRequired)
+                {
+                    _imageViewer.Invoke(_imageViewer.Show);
+                    return;
+                }
+                _imageViewer.Show();
             }
+            
         }
 
         private void BackButton_Click(object sender, EventArgs e)
@@ -432,6 +407,32 @@ namespace ReceiptManager
                 return;
             }
             _onEdit.Invoke(_currentEditObject);
+        }
+
+        private void AddButton_Click(object sender, EventArgs e)      // save button
+        {
+            if (!isDateValid())
+            {
+                return;
+            }
+            if (!isCostValid())
+            {
+                return;
+            }
+            if (!isNameValid())
+            {
+                return;
+            }
+
+            SaveImageToImageFolder();
+
+            Info receipt_object = new Info(PurchaseNameInput.Text, ExpirationDateInput.Text, // create object
+               PurchaseDateInput.Text, CostInput.Text, _imgPath, _uniqueIDGenerator.GenerateUniqueID());
+
+            _onSave(this, receipt_object);
+
+            ResetReceiptInfoInView();
+
         }
 
         private void EnableEditMode()

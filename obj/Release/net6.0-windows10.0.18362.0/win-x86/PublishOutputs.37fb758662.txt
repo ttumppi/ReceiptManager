@@ -1,0 +1,7 @@
+E:\Repos\ReceiptManager\Publish\ReceiptManager.pdb
+E:\Repos\ReceiptManager\Publish\D3DCompiler_47_cor3.dll
+E:\Repos\ReceiptManager\Publish\PenImc_cor3.dll
+E:\Repos\ReceiptManager\Publish\PresentationNative_cor3.dll
+E:\Repos\ReceiptManager\Publish\vcruntime140_cor3.dll
+E:\Repos\ReceiptManager\Publish\wpfgfx_cor3.dll
+E:\Repos\ReceiptManager\Publish\ReceiptManager.exe

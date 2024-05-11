@@ -35,6 +35,8 @@ namespace ReceiptManager
 
         private EventHandler<bool> _searchStateListeners;
 
+        private UniqueIDGenerator _idGenerator;
+
 
 
 
@@ -51,8 +53,8 @@ namespace ReceiptManager
 
         private void CreateViews()
         {
-            _mainView = new MainListView(Settings.Instance.TabHeight, this);
-            _addReceiptsView = new AddReceiptView(Settings.Instance.TabHeight, this, AddReceiptView.Mode.Add);
+            _mainView = new MainListView(Settings.Instance.TabHeight, this, _idGenerator);
+            _addReceiptsView = new AddReceiptView(Settings.Instance.TabHeight, this, AddReceiptView.Mode.Add, _idGenerator);
             _logView = new LogView(Settings.Instance.TabHeight);
             
         }
@@ -99,11 +101,15 @@ namespace ReceiptManager
 
         private void Form1_Load(object sender, EventArgs e)
         {
+
+
             SetSettings();
+            ReadIDGenerator();
             CreateViews();
+            ReadMainView();
             SetAddReceiptsView();
             TabInitialization();
-            Read();
+            
             LinkSaveFunctions();
             CreateAndRunServer();
             IPLabel.Text = GetLocalIP();
@@ -115,11 +121,17 @@ namespace ReceiptManager
             _broadCastClientSocket = new BroadCastClientSocket(23499, SocketType.Dgram, ProtocolType.Udp, ";;;");
         }
 
-        private void Read()
+        private void ReadMainView()
         {
+            
             _mainView.Read();
             _mainView.UpdateListView();
 
+        }
+
+        private void ReadIDGenerator()
+        {
+            _idGenerator = UniqueIDGenerator.Read();
         }
 
 
@@ -127,7 +139,7 @@ namespace ReceiptManager
         private void Write()
         {
             _mainView.Write();
-            _addReceiptsView.Write();
+            _idGenerator.Write();
         }
 
 
@@ -152,6 +164,7 @@ namespace ReceiptManager
         private void ReceiptsTabButton_Click(object sender, EventArgs e)
         {
             _mainView.BringToFront();
+            _mainView.Show();
             _addReceiptsView.Hide();
         }
 
@@ -159,6 +172,8 @@ namespace ReceiptManager
         {
             _addReceiptsView.BringToFront();
             _addReceiptsView.Show();
+            _mainView.Hide();
+
         }
 
 
@@ -168,6 +183,7 @@ namespace ReceiptManager
 
             _mainView.UpdateListView(info);
             _mainView.BringToFront();
+            _mainView.Show();
         }
 
         private void ViewLogTabButton_Click(object sender, EventArgs e)
@@ -194,6 +210,7 @@ namespace ReceiptManager
 
         private void CreateClientAndStartIPBroadcast()
         {
+            DisableSearchForPhoneAppButton();
             CreateClient();
             _broadCastClientSocket.StartPollingMessage("_IP");
 
