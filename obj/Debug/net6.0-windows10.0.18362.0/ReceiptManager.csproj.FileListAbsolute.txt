@@ -50,3 +50,4 @@ E:\Repos\ReceiptManager\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0\Rece
 E:\Repos\ReceiptManager\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0\ReceiptM.3948960E.Up2Date
 E:\Repos\ReceiptManager\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0\ReceiptManager.genruntimeconfig.cache
 E:\Repos\ReceiptManager\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0\ref\ReceiptManager.dll
+E:\Repos\ReceiptManager\ReceiptManager\obj\Debug\net6.0-windows10.0.18362.0\ReceiptManager.Properties.Resources.resources

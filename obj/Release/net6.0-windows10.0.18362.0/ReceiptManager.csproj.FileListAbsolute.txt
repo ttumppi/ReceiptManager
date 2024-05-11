@@ -24,3 +24,4 @@ E:\Repos\ReceiptManager\ReceiptManager\obj\Release\net6.0-windows10.0.18362.0\re
 E:\Repos\ReceiptManager\ReceiptManager\obj\Release\net6.0-windows10.0.18362.0\ReceiptManager.pdb
 E:\Repos\ReceiptManager\ReceiptManager\obj\Release\net6.0-windows10.0.18362.0\ReceiptManager.genruntimeconfig.cache
 E:\Repos\ReceiptManager\ReceiptManager\obj\Release\net6.0-windows10.0.18362.0\ref\ReceiptManager.dll
+E:\Repos\ReceiptManager\ReceiptManager\obj\Release\net6.0-windows10.0.18362.0\ReceiptManager.Properties.Resources.resources

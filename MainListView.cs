@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Globalization;
 using System.Xml.Serialization;
+using System.Drawing.Imaging;
 
 namespace ReceiptManager
 {
@@ -28,6 +29,10 @@ namespace ReceiptManager
 
         private AddReceiptView _editReceiptView;
 
+        private Dictionary<Icons, int> _indexesForIcons;
+
+        private Dictionary<Icons, Image> _iconImages;
+
 
         public Dictionary<string, Info> Receipts
         {
@@ -40,6 +45,8 @@ namespace ReceiptManager
         public MainListView(int tabHeight, Control parent, UniqueIDGenerator idGenerator)
         {
             InitializeComponent();
+            CreateImageAndIconIndexDictionaries();
+            SetListViewIcons();
             CreateColumns();
             SetControls();
             setUCSize(tabHeight);
@@ -57,6 +64,24 @@ namespace ReceiptManager
             _imageViewer.Location = new Point(0, 0);
         }
 
+        private void CreateImageAndIconIndexDictionaries()
+        {
+            _indexesForIcons = new Dictionary<Icons, int>();
+            _iconImages = new Dictionary<Icons, Image>();
+
+           
+            FillIconImages();
+            
+        }
+
+       
+
+        private void FillIconImages()
+        {
+            _iconImages[Icons.CheckMark] = Properties.Resources.CheckMarkPicture;
+            _iconImages[Icons.Close] = Properties.Resources.ClosePicture;
+        }
+
         private void CreateAndSetEditReceiptView(int tabHeight, Control parent, UniqueIDGenerator idGenerator)
         {
             _editReceiptView = new AddReceiptView(tabHeight, parent, AddReceiptView.Mode.Edit, idGenerator);
@@ -67,6 +92,24 @@ namespace ReceiptManager
             _editReceiptView.EnableBackButton();
             _editReceiptView.Location = new Point(0, 0);
             
+        }
+
+        private void SetListViewIcons()
+        {
+            ImageList list = new ImageList();
+
+            foreach(KeyValuePair<Icons, Image> pair in _iconImages)
+            {
+                list.Images.Add(ConvertIconImageToBitmap(pair.Value));
+                _indexesForIcons.Add(pair.Key, list.Images.Count -1);
+            }
+
+            ReceiptListView.SmallImageList = list;
+        }
+
+        private Bitmap ConvertIconImageToBitmap(Image icon)
+        {
+            return new Bitmap(icon);
         }
 
         public void LinkConnectionRequestedListenerToEditView(Action listener)
@@ -115,10 +158,9 @@ namespace ReceiptManager
             foreach (KeyValuePair<string, Info> item in _receiptItems)
             {
                 ListViewItem ltItem = new ListViewItem();
-                if (item.Value.ImgPath != string.Empty)
-                {
-                    ltItem.ImageIndex = 0;
-                }
+
+                SetListItemIconReferringInfoItem(ltItem, item.Value);
+
                 ltItem.SubItems.Add(item.Value.Name);
                 ltItem.SubItems.Add(item.Value.ExpirationDate);
                 ltItem.SubItems.Add(item.Value.PurchaseDate);
@@ -127,9 +169,7 @@ namespace ReceiptManager
                 ReceiptListView.Items.Add(ltItem);
             }
 
-            ImageList list = new ImageList();
-            list.Images.Add(new Icon(SystemIcons.Information, 40, 40));
-            ReceiptListView.SmallImageList = list;
+            
 
 
             ReceiptListView.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
@@ -143,16 +183,25 @@ namespace ReceiptManager
 
         }
 
+        private void SetListItemIconReferringInfoItem(ListViewItem ltItem, Info item)
+        {
+            if (item.ImgPath != string.Empty)
+            {
+                ltItem.ImageIndex = _indexesForIcons[Icons.CheckMark];
+            }
+            else
+            {
+                ltItem.ImageIndex = _indexesForIcons[Icons.Close];
+            }
+        }
+
         public void UpdateListView(Info item)
         {
 
 
             ListViewItem ltItem = new ListViewItem();
 
-            if (item.ImgPath != string.Empty)
-            {
-                ltItem.ImageIndex = 0;
-            }
+            SetListItemIconReferringInfoItem(ltItem, item);
 
             ltItem.Checked = item.ImgPath != string.Empty;
             ltItem.SubItems.Add(item.Name);
@@ -498,6 +547,13 @@ namespace ReceiptManager
             base.Hide();
             _editReceiptView.Hide();
            
+        }
+
+        public enum Icons
+        {
+            None,
+            CheckMark,
+            Close,
         }
     }
 }

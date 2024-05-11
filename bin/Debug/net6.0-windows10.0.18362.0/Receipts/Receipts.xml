@@ -1,2 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ArrayOfInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" />
+<ArrayOfInfo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Info>
+    <ID>a</ID>
+    <Name>TestWithNoImage</Name>
+    <ExpirationDate>12/02/2024</ExpirationDate>
+    <PurchaseDate>12/02/2023</PurchaseDate>
+    <Cost>550</Cost>
+    <ImgPath>E:\Repos\ReceiptManager\ReceiptManager\bin\Debug\net6.0-windows10.0.18362.0\Images\12.05.2024 00.16.05.Jpeg</ImgPath>
+  </Info>
+  <Info>
+    <ID>b</ID>
+    <Name>TestWithImage</Name>
+    <ExpirationDate>12/02/2025</ExpirationDate>
+    <PurchaseDate>12/02/2024</PurchaseDate>
+    <Cost>100</Cost>
+    <ImgPath />
+  </Info>
+</ArrayOfInfo>
